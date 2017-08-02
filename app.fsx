@@ -84,6 +84,4 @@ let app =
             //          ])
                      ]
 
-let config = { defaultConfig with serverKey = System.Convert.FromBase64String "ABk4PEzueMTzt4oMbWRThJtDkeTGwHsg2wipDykS7N0=" }
 
-startWebServer config app
