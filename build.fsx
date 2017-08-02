@@ -4,6 +4,7 @@
 //  2) Deploys the web application to Azure web sites when called with 'build deploy'
 // 
 // Source: https://github.com/tpetricek/suave-xplat-gettingstarted/blob/master/build.fsx
+// Copied From: https://gist.github.com/mikesigs/72875bc7408af9202349#file-build-fsx-L65
 // --------------------------------------------------------------------------------------
 #r "packages/FSharp.Compiler.Service/lib/net45/FSharp.Compiler.Service.dll"
 #r "packages/Suave/lib/net40/Suave.dll"
