@@ -1,6 +1,5 @@
 #r "./packages/Suave/lib/net40/Suave.dll"
 #r "./packages/Suave.Experimental/lib/net40/Suave.Experimental.dll"
-// #load "root.fs"
 open Suave
 open Suave.Cookie
 open Suave.Filters
@@ -12,19 +11,16 @@ open Suave.Successful
 open Suave.Authentication
 
 let ul = tag "ul"
+let li = tag "li"
 
 let samplePage =
   html [] [
     head [] [
       title [] "Home"
-      link [ "rel", "stylesheet"; "href", "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" ]
       link [ "rel", "stylesheet"; "href", "https://fonts.googleapis.com/css?family=Overpass" ]
-      link [ "rel", "stylesheet"; "href", "content/Site.css"; "type", "text/css" ]
+      link [ "rel", "stylesheet"; "href", "content/site.css"; "type", "text/css" ]
       meta [ "charset", "utf-8"]
       meta [ "name", "viewport"; "content", "width=device-width, initial-scale=1"]
-      script [ "type", "text/javascript"; "src", "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" ] []
-      script [ "type", "text/javascript"; "src", "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" ] []
-      script [ "type", "text/javascript" ] (rawText "$().ready(function () { setup(); });" )
     ]
     body [] [
       div ["class", "wrapper"] [
@@ -40,13 +36,17 @@ let samplePage =
         ]
         div ["class", "main-nav"] [
           ul [] [
-            a "/" ["class", "nav-item"] [
-              span ["class", "glyphicon glyphicon-home"] []
-              p [] (text "Welcome")
+            li [] [
+              a "/" ["class", "nav-item"] [
+                span ["class", "glyphicon glyphicon-home"] []
+                p [] (text "Welcome")
+              ]
             ]
-            a "/dashboard" ["class", "nav-item"] [
-              span ["class", "glyphicon glyphicon-list-alt"] []
-              p [] (text "Care Plan")
+            li [] [
+              a "/dashboard" ["class", "nav-item"] [
+                span ["class", "glyphicon glyphicon-list-alt"] []
+                p [] (text "Care Plan")
+              ]
             ]
           ]
         ]
@@ -65,23 +65,5 @@ let app =
     State.CookieStateStore.statefulForSession
     >=> choose [
         Files.browseHome
-        path "/" >=> OK "Welcome aboard"
-        //path "/" >=> Successful.OK samplePage
-        //path "/login" >=> Auth.loginMethod
-        //path "/logout" >=> Auth.logoutMethod
-        //pathScan "/accept/%s" accept  
-        //pathScan "/register/%s/%s/%s/%s/%s" registerMethod
-        Authentication.authenticateBasic ((=) ("foo", "bar")) <|
-                    choose [
-                        path "/test/" >=> OK samplePage
-                    ]
-            // (choose [
-            //         //path "/" >=> context index 
-            //         path "/dashboard" >=> context dashboard
-            //         path "/proxies" >=> context proxies
-            //         path "/feedback" >=> context feedback
-            //         pathScan "/feedback/%s" messageMethod
-            //          ])
-                     ]
-
-
+        path "/" >=> OK samplePage
+        ]

@@ -1,0 +1,118 @@
+.wrapper {
+    max-width: 1080px;
+    margin: 0 auto;
+    font-size: 1.0em;
+    font-family: 'Overpass', sans-serif;
+    color: #666666;
+}
+
+.main-nav ul {
+    list-style: none;
+    text-align: center;
+    margin-bottom: 0px;
+    padding-right: 40px;
+}
+
+span {
+    font-size: larger;
+    margin: 0.3em;
+}
+
+a {
+    color: #666666;
+    padding: 0.4em 0.4em 0.0em 0.4em;
+    cursor: pointer;
+    border-bottom: thick solid #eaeced;
+}
+
+a:hover {
+    color: #28becd;
+    text-decoration: none;
+    border-bottom: thick solid #28becd;
+}
+
+.profile {
+    border-radius: 5px;
+    border-color: #90908f;
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 3em;
+}
+
+.profile-small {
+    border-radius: 5px;
+    border-color: #90908f;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.main-logo {
+    padding-right: 10px;
+    grid-area: logo;
+    background-color: #28becd;
+    color: white;
+    font-size: 1.4em;
+}
+
+.main-info {
+    padding: 10px;
+    grid-area: info;
+    background-color: #28becd;
+}
+
+    .main-info > * {
+        margin: 2px;
+    }
+
+.main-nav {
+    padding: 0px;
+    grid-area: nav;
+    background-color: #eaeced;
+}
+
+.main-content {
+    padding: 10px;
+    grid-area: content;
+}
+
+.main-sidebar {
+    padding: 10px;
+    grid-area: sidebar;
+}
+
+.main-sidebar > * {
+    margin: 10px;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-areas: "logo" "info" "nav" "content" "sidebar";
+}
+
+.nav-item {
+    border: 1px;
+    border-color: black;
+    background-image: url("https://maxcdn.icons8.com/Share/icon/p1em/Very_Basic//home1600.png");
+}
+
+#loginFrm {
+    max-width: 40em;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
+}
+
+@media (min-width: 500px) {
+    .wrapper {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-areas: "logo    logo    logo    logo    info    info   " 
+                             "nav     nav     nav     nav     nav     nav    " 
+                             "sidebar content content content content content"
+    }
+
+    nav ul {
+        display: flex;
+        justify-content: space-between;
+    }
+}
