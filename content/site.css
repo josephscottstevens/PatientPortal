@@ -18,25 +18,31 @@ span {
     margin: 0.3em;
 }
 
-.homeIcon {
-    background: url("https://image.flaticon.com/icons/svg/23/23665.svg") no-repeat;
-    background-size: contain;
-    background-position-x: 50%;
-    height: 42px;
-    display: block;
+.homeSvg {
+    width: 40px;
+    height: 40px;
+    margin-left: 22%;
+    fill: currentColor;
 }
 
-nav a {
-    color: #666666;
+.nav-item {
+    border: 1px;
+    border-color: black;
     padding: 0.4em 0.4em 0.0em 0.4em;
+    color: #666666;
     cursor: pointer;
     border-bottom: thick solid #eaeced;
+    display: inline-grid;
 }
 
-a:hover {
+.nav-item:hover {
     color: #28becd;
     text-decoration: none;
     border-bottom: thick solid #28becd;
+}
+
+nav a {
+    color: currentColor;
 }
 
 .profile {
@@ -95,12 +101,6 @@ a:hover {
 .wrapper {
     display: grid;
     grid-template-areas: "logo" "info" "nav" "content" "sidebar";
-}
-
-.nav-item {
-    border: 1px;
-    border-color: black;
-    
 }
 
 #loginFrm {
