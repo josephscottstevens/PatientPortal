@@ -11,17 +11,20 @@ open Suave.RequestErrors
 open Suave.Authentication
 open Suave.Html
 
-let requireAuth url =
+let requireAuth =
     authenticate Session false
        (fun () -> Choice2Of2(FORBIDDEN "please authenticate"))
        (fun _ ->  Choice2Of2(BAD_REQUEST "did you fiddle with our cipher text?"))
-       (OK url)
 
 let app =
-    choose[
-      path "/" >=> OK "root"
-      path "/auth" >=> authenticated Session false >=> OK "authed"
-      path "/deauth" >=> deauthenticate >=> OK "deauthed"
-      path "/protected" >=> requireAuth "Welcome to the secure zone"
+    choose [
+        path "/" >=> OK "root"
+        path "/auth" >=> authenticated Session false >=> OK "authed"
+        path "/deauth" >=> deauthenticate >=> OK "deauthed"
+        requireAuth (
+            choose [
+                path "/secure" >=> OK "secures"
+            ]
+        )
     ]
 startWebServer defaultConfig app
