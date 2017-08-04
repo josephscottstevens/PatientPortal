@@ -1,7 +1,5 @@
-#r "./packages/Suave/lib/net40/Suave.dll"
-#r "./packages/Suave.Experimental/lib/net40/Suave.Experimental.dll"
+#load "fsharp.fsx"
 
-open Suave
 open Suave.Html
 open Suave.Cookie
 open Suave.Operators
@@ -10,11 +8,7 @@ open Suave.Filters
 open Suave.RequestErrors
 open Suave.Authentication
 open Suave.Html
-
-let requireAuth =
-    authenticate Session false
-       (fun () -> Choice2Of2(FORBIDDEN "please authenticate"))
-       (fun _ ->  Choice2Of2(BAD_REQUEST "did you fiddle with our cipher text?"))
+open SuaveHelp
 
 let app =
     choose [
@@ -27,4 +21,5 @@ let app =
             ]
         )
     ]
+
 startWebServer defaultConfig app
