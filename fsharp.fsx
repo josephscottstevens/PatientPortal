@@ -2,15 +2,15 @@
 #r "./packages/Suave.Experimental/lib/net40/Suave.Experimental.dll"
 
 namespace Suave.Helpers
+open Suave.Cookie
+open Suave.Successful
+open Suave.RequestErrors
+open Suave.Authentication
 
 [<AutoOpenAttribute>]
 module t =
-    open Suave
-    open Suave.Cookie
-    open Suave.Successful
-    open Suave.RequestErrors
-    open Suave.Authentication
-
+    let authenticateUser = authenticated Session false
+    let deAuthenticateUser = deauthenticate
     let requireAuth =
         authenticate Session false
            (fun () -> Choice2Of2(FORBIDDEN "please authenticate"))
