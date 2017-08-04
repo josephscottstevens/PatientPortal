@@ -6,11 +6,11 @@
     color: #666666;
 }
 
-.main-nav ul {
+.nav ul {
     list-style: none;
     text-align: center;
-    margin-bottom: 0px;
     padding-right: 40px;
+    padding-left: 40px;
 }
 
 span {
@@ -18,7 +18,15 @@ span {
     margin: 0.3em;
 }
 
-a {
+.homeIcon {
+    background: url("https://image.flaticon.com/icons/svg/23/23665.svg") no-repeat;
+    background-size: contain;
+    background-position-x: 50%;
+    height: 42px;
+    display: block;
+}
+
+nav a {
     color: #666666;
     padding: 0.4em 0.4em 0.0em 0.4em;
     cursor: pointer;
@@ -92,7 +100,7 @@ a:hover {
 .nav-item {
     border: 1px;
     border-color: black;
-    background-image: url("https://maxcdn.icons8.com/Share/icon/p1em/Very_Basic//home1600.png");
+    
 }
 
 #loginFrm {
@@ -112,7 +120,11 @@ a:hover {
     }
 
     nav ul {
+        list-style: none;
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        padding-right: 40px;
+        padding-left: 40px;
     }
 }

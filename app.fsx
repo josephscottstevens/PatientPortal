@@ -12,6 +12,7 @@ open Suave.Authentication
 
 let ul = tag "ul"
 let li = tag "li"
+let nav = tag "nav"
 
 let samplePage =
   html [] [
@@ -34,19 +35,23 @@ let samplePage =
           p [] (text "Patient name goes here")
           a "/logout" ["class", "btn btn-default"] []
         ]
-        div ["class", "main-nav"] [
+        nav ["class", "main-nav"] [
           ul [] [
-            li [] [
-              a "/" ["class", "nav-item"] [
-                span ["class", "glyphicon glyphicon-home"] []
-                p [] (text "Welcome")
-              ]
+            li ["class", "nav-item"] [
+              span ["class", "homeIcon"] []
+              a "/" [] (text "Welcome")
             ]
-            li [] [
-              a "/dashboard" ["class", "nav-item"] [
-                span ["class", "glyphicon glyphicon-list-alt"] []
-                p [] (text "Care Plan")
-              ]
+            li ["class", "nav-item"] [
+              a "/careplan" [] (text "Care Plan")
+            ]
+            li ["class", "nav-item"] [
+              a "/messages" [] (text "Messages")
+            ]
+            li ["class", "nav-item"] [
+              a "/medications" [] (text "Medications")
+            ]
+            li ["class", "nav-item"] [
+              a "/forms" [] (text "Forms")
             ]
           ]
         ]
