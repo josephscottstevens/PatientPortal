@@ -28,7 +28,7 @@ let samplePage =
     body [] [
       div ["class", "wrapper"] [
         div ["class", "main-logo"] [
-          img ["src", "content/logo.png"; "width", "130px"]
+          img ["src", "content/logo.svg"; "width", "130px"]
           p [] (text "Primary Care Clinic")
         ]
         div ["class", "main-info"] [
@@ -41,7 +41,7 @@ let samplePage =
           ul [] [
             li ["class", "nav-item"] [
               homeSvg
-              a "/" [] (text "Welcome")
+              a "/"  [] (text "Welcome")
             ]
             li ["class", "nav-item"] [
               a "/careplan" [] (text "Care Plan")

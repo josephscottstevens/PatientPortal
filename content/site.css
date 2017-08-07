@@ -35,9 +35,9 @@ span {
 }
 
 .nav-item:hover {
-    color: #28becd;
+    color: #2899c9;
     text-decoration: none;
-    border-bottom: thick solid #28becd;
+    border-bottom: thick solid #2899c9;
 }
 
 nav a {
@@ -62,7 +62,7 @@ nav a {
 .main-logo {
     padding-right: 10px;
     grid-area: logo;
-    background-color: #28becd;
+    background: linear-gradient(90deg, #33aade, #2899c9);
     color: white;
     font-size: 1.4em;
 }
@@ -70,7 +70,7 @@ nav a {
 .main-info {
     padding: 10px;
     grid-area: info;
-    background-color: #28becd;
+    background-color: #2899c9;
 }
 
     .main-info > * {
