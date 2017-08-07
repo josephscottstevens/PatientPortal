@@ -23,12 +23,12 @@ module Root =
   let pages = 
     [
       { Url ="/"; Icon = homeSvg; Label = text "Welcome" }
-      { Url ="/careplan"; Icon = carePlan; Label = text "Care Plan" }
-      { Url ="/feedback"; Icon = homeSvg; Label = text "Feedback" }
-      { Url ="/medications"; Icon = homeSvg; Label = text "My Medications" }
-      { Url ="/forms"; Icon = homeSvg; Label = text "Forms" }
-      { Url ="/education"; Icon = homeSvg; Label = text "Education" }
-      { Url ="/proxies"; Icon = homeSvg; Label = text "My Proxies" }
+      { Url ="/careplan"; Icon = carePlanSvg; Label = text "Care Plan" }
+      { Url ="/feedback"; Icon = feedbackSvg; Label = text "Feedback" }
+      { Url ="/medications"; Icon = medicationsSvg; Label = text "My Medications" }
+      { Url ="/forms"; Icon = formsSvg; Label = text "Forms" }
+      { Url ="/education"; Icon = educationSvg; Label = text "Education" }
+      { Url ="/proxies"; Icon = proxiesSvg; Label = text "My Proxies" }
     ]
 
   let finder (t:Page) (activePageUrl:string) =
