@@ -16,19 +16,19 @@ module Root =
   type Page =
     {
       Url: string
-      Icon: Node
-      Label: Node List
+      Icon: Node 
+      Label: Node
     }
 
   let pages = 
     [
-      { Url ="/"; Icon = homeSvg; Label = text "Welcome" }
-      { Url ="/careplan"; Icon = carePlanSvg; Label = text "Care Plan" }
-      { Url ="/feedback"; Icon = feedbackSvg; Label = text "Feedback" }
-      { Url ="/medications"; Icon = medicationsSvg; Label = text "My Medications" }
-      { Url ="/forms"; Icon = formsSvg; Label = text "Forms" }
-      { Url ="/education"; Icon = educationSvg; Label = text "Education" }
-      { Url ="/proxies"; Icon = proxiesSvg; Label = text "My Proxies" }
+      { Url ="/"; Icon = homeSvg; Label = div [] (text "Welcome") }
+      { Url ="/careplan"; Icon = carePlanSvg; Label = div [] (text "Care Plan") }
+      { Url ="/feedback"; Icon = feedbackSvg; Label = div [] (text "Feedback") }
+      { Url ="/medications"; Icon = medicationsSvg; Label = div [] (text "My Medications") }
+      { Url ="/forms"; Icon = formsSvg; Label = div [] (text "Forms") }
+      { Url ="/education"; Icon = educationSvg; Label = div [] (text "Education") }
+      { Url ="/proxies"; Icon = proxiesSvg; Label = div [] (text "My Proxies") }
     ]
 
   let finder (t:Page) (activePageUrl:string) =
@@ -39,8 +39,10 @@ module Root =
         ["class", "nav-item"]
 
     li classAttr [
-      homeSvg
-      a t.Url [] t.Label
+      a t.Url [] [
+        t.Icon
+        t.Label
+      ]
     ]
 
   let getNavMenu (activePageUrl:string) =
