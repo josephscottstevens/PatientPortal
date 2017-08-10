@@ -20,5 +20,5 @@ let app =
         path "/medications" >=> OK (basePage "/medications" Medications.Home)
         path "/forms"       >=> OK (basePage "/forms" Forms.Home)
         path "/education"   >=> OK (basePage "/education" Education.Home)
-        path "/proxies"     >=> OK (basePage "/proxies" Root.tempContent)
+        path "/proxies"     >=> OK (basePage "/proxies" Proxies.Home)
       ]
