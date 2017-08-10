@@ -132,3 +132,9 @@ nav a {
         margin-bottom: 5px;
     }
 }
+
+.horizontalCentered {
+    max-width: 40em;
+    position: relative;
+    margin: auto;
+}

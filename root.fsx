@@ -1,6 +1,11 @@
 #r "./packages/Suave/lib/net40/Suave.dll"
 #r "./packages/Suave.Experimental/lib/net40/Suave.Experimental.dll"
+#load "pages/carePlanPage.fsx"
+#load "pages/homePage.fsx"
+
 open Suave.Html
+open CarePlanPage
+open HomePage
 
 module Root =
   let ul = tag "ul"
@@ -78,6 +83,8 @@ module Root =
         title [] "Home"
         link [ "rel", "stylesheet"; "href", "https://fonts.googleapis.com/css?family=Overpass" ]
         link [ "rel", "stylesheet"; "href", "content/site.css"; "type", "text/css" ]
+        link [ "rel", "stylesheet"; "href", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"; ]
+        script [ "src", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"] []
         meta [ "charset", "utf-8"]
         meta [ "name", "viewport"; "content", "width=device-width, initial-scale=1"]
       ]
@@ -104,6 +111,4 @@ module Root =
     ]
     |> htmlToString  
     
-  let carePlanPage = 
-    let content = p [] (text "careplan!")
-    samplePage "/careplan" content
+  let carePlanPage = samplePage "/careplan" CarePlan.Home

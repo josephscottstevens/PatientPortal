@@ -61,15 +61,12 @@ let getProxyUserIdByEmail email =
     | Some t -> Some patient.Value.UserId
     | None -> None
 
-let getCarePlan patientId =
-    let carePlan = 
-        query {
-            for p in ctx.Cls.ClinicalSummaries do
-            where (p.PatientId = patientId)
-            select p.CarePlan.Value
-        }
-        |> Seq.head
-    carePlan.Replace("\n", "<br \>")
+let getCarePlans patientId =
+    query {
+        for p in ctx.Cls.CarePlanFiles do
+        where (p.PatientId = patientId)
+        select p
+    }
 
 let isFacilityPortalEnabled userId =
     let isEnabledOption =
