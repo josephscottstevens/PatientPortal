@@ -64,6 +64,7 @@ NUGET
       System.Threading.Thread (>= 4.0) - restriction: >= netstandard1.6
       System.Threading.ThreadPool (>= 4.0.10) - restriction: >= netstandard1.6
       System.Threading.Timer (>= 4.0.1) - restriction: >= netstandard1.6
+    iTextSharp (5.5.11)
     Microsoft.CSharp (4.3) - restriction: >= netstandard1.6
       System.Collections (>= 4.3) - restriction: || (&& (< net45) (>= netstandard1.3) (< monotouch) (< xamarinios) (< xamarinmac) (< win8) (< wpa81)) (>= dnxcore50)
       System.Diagnostics.Debug (>= 4.3) - restriction: || (&& (< net45) (>= netstandard1.3) (< monotouch) (< xamarinios) (< xamarinmac) (< win8) (< wpa81)) (>= dnxcore50)

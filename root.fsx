@@ -19,7 +19,30 @@ module Root =
       Icon: Node 
       Label: Node
     }
+  let nav = tag "nav"
+  let isProxy = false
 
+  let patientDisplayTopRight =
+    let cls = ["style", "display: inline-block; margin: 5px;"]
+    let ifProxyLst = 
+      [
+        p cls (text "Patient")
+        p cls (text "Sarah O'Conner")
+      ]
+
+    let lst =
+      [
+        p cls (text "Welcome")
+        p cls (text "Keven Homer")
+      ]
+    let lst =
+      if isProxy then 
+        lst 
+      else 
+        lst @ ifProxyLst
+    div ["style", "display: block; margin: 5px"] lst
+
+  
   let pages = 
     [
       { Url ="/"; Icon = homeSvg; Label = div [] (text "Welcome") }
@@ -48,3 +71,39 @@ module Root =
   let getNavMenu (activePageUrl:string) =
     let allPages = pages |> List.map (fun t -> finder t activePageUrl)
     ul [] allPages    
+  let tempContent = p [] (text "Here is some test text, we want to add Incomplete forms, messages, new badges and that sort of thing here.")
+  let samplePage url content =
+    html [] [
+      head [] [
+        title [] "Home"
+        link [ "rel", "stylesheet"; "href", "https://fonts.googleapis.com/css?family=Overpass" ]
+        link [ "rel", "stylesheet"; "href", "content/site.css"; "type", "text/css" ]
+        meta [ "charset", "utf-8"]
+        meta [ "name", "viewport"; "content", "width=device-width, initial-scale=1"]
+      ]
+      body [] [
+        div ["class", "wrapper"] [
+          div ["class", "main-logo"] [
+            img ["src", "content/logo.svg"; "width", "130px"]
+          ]
+          div ["class", "main-info"] [
+            patientDisplayTopRight
+            a "/logout" ["class", "btn btn-default"] []
+          ]
+          nav ["class", "main-nav"] [
+            getNavMenu url
+          ]
+          div ["class", "main-sidebar"] [
+            p [] (text "Stevens, Joseph")
+          ]
+          div ["class", "main-content"] [
+            content
+          ]
+        ]
+      ]
+    ]
+    |> htmlToString  
+    
+  let carePlanPage = 
+    let content = p [] (text "careplan!")
+    samplePage "/careplan" content

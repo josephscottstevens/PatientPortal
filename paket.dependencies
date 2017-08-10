@@ -1,6 +1,7 @@
 source https://www.nuget.org/api/v2
 nuget Fake
 nuget Fsharp.Compiler.Service
+nuget itextsharp
 nuget SqlProvider
 nuget Suave
 nuget Suave.Experimental
