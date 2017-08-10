@@ -63,7 +63,7 @@ nav a {
 }
 
 .main-logo {
-    padding-right: 10px;
+    padding: 10px;
     grid-area: logo;
     background: linear-gradient(90deg, #33aade, #2899c9);
     color: white;
@@ -127,6 +127,7 @@ nav a {
         justify-content: space-between;
         align-items: center;
         padding-right: 40px;
-        padding-left: 40px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 }

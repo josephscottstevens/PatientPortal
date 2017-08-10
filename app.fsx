@@ -11,8 +11,26 @@ open Suave.Successful
 open Suave.Authentication
 open Root
 let nav = tag "nav"
+let isProxy = false
 
-let samplePage =
+let patientDisplayTopRight =
+  let ifProxyLst = 
+    [
+      p [] (text "Patient")
+      p [] (text "Sarah O'Conner")
+    ]
+
+  let lst =
+    [
+      p [] (text "Welcome")
+      p [] (text "Kiven Homer")
+    ]
+  if isProxy then 
+    lst @ ifProxyLst
+  else 
+    lst
+
+let samplePage url =
   html [] [
     head [] [
       title [] "Home"
@@ -25,16 +43,13 @@ let samplePage =
       div ["class", "wrapper"] [
         div ["class", "main-logo"] [
           img ["src", "content/logo.svg"; "width", "130px"]
-          p [] (text "Primary Care Clinic")
         ]
         div ["class", "main-info"] [
-          p [] (text "Proxy Relationship goes here")
-          img [ "src", "content/profile.jpg"; "width", "50px"; "class", "profile-small"]
-          p [] (text "Patient name goes here")
+          div [] patientDisplayTopRight
           a "/logout" ["class", "btn btn-default"] []
         ]
         nav ["class", "main-nav"] [
-          Root.getNavMenu "/"
+          Root.getNavMenu url
         ]
         div ["class", "main-sidebar"] [
           p [] (text "Stevens, Joseph")
@@ -51,5 +66,11 @@ let app =
     State.CookieStateStore.statefulForSession
     >=> choose [
         Files.browseHome
-        path "/" >=> OK samplePage
+        path "/"            >=> OK (samplePage "/")
+        path "/careplan"    >=> OK (samplePage "/careplan")
+        path "/feedback"    >=> OK (samplePage "/feedback")
+        path "/medications" >=> OK (samplePage "/medications")
+        path "/forms"       >=> OK (samplePage "/forms")
+        path "/education"   >=> OK (samplePage "/education")
+        path "/proxies"     >=> OK (samplePage "/proxies")
         ]
