@@ -1,3 +1,5 @@
+#r "CSharpLibrary.dll"
+
 #load "fsharp.fsx"
 
 open Suave
@@ -7,6 +9,12 @@ open Suave.Filters
 open Suave.Html
 open Suave.Helpers
 
+let x =
+  let owin = CSharpLibrary.OwinAuth()
+  if owin.VerifyHashedPassword("pw", "hashPw") then
+      Some "Success"
+  else 
+      None
 let app =
     choose [
         path "/" >=> OK "root"
