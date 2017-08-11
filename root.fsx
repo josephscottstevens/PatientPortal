@@ -118,3 +118,30 @@ let basePage url content =
     ]
   ]
   |> htmlToString
+
+let insecurePage content =
+  html [] [
+    head [] [
+      title [] "Home"
+      link [ "rel", "stylesheet"; "href", "https://fonts.googleapis.com/css?family=Overpass" ]
+      link [ "rel", "stylesheet"; "href", "content/site.css"; "type", "text/css" ]
+      link [ "rel", "stylesheet"; "href", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"; ]
+      script [ "src", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"] []
+      meta [ "charset", "utf-8"]
+      meta [ "name", "viewport"; "content", "width=device-width, initial-scale=1"]
+    ]
+    body [] [
+      div ["class", "wrapper"] [
+        div ["class", "main-logo"] [
+          img ["src", "content/logo.svg"; "width", "130px"]
+        ]
+        div ["class", "main-info"] []
+        nav ["class", "main-nav"] []
+        div ["class", "main-sidebar"] []
+        div ["class", "main-content"] [
+          content
+        ]
+      ]
+    ]
+  ]
+  |> htmlToString
