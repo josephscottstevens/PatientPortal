@@ -7,6 +7,7 @@
 #load "pages/forms.fsx"
 #load "pages/education.fsx"
 #load "pages/proxies.fsx"
+#load "pages/login.fsx"
 
 open Suave.Html
 open HomePage
@@ -16,6 +17,7 @@ open Medications
 open Forms
 open Education
 open Proxies
+open Login
 let ul = tag "ul"
 let li = tag "li"
 let homeSvg = rawText """<svg class="homeSvg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"> <g>	<path d="M512,296l-96-96V56h-64v80l-96-96L0,296v16h64v160h160v-96h64v96h160V312h64V296z"></path> </g> <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>""" |> Seq.head

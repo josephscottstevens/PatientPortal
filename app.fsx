@@ -14,6 +14,7 @@ let app =
     [
       Files.browseHome
       path "/"            >=> OK (basePage "/" HomePage.Home)
+      path "/login"       >=> OK (basePage "/" Login.Home)
       path "/careplan"    >=> OK (basePage "/careplan" CarePlan.Home)
       path "/feedback"    >=> OK (basePage "/feedback" Feedback.Home)
       path "/medications" >=> OK (basePage "/medications" Medications.Home)
