@@ -101,7 +101,7 @@ let basePage url content =
         ]
         div ["class", "main-info"] [
           patientDisplayTopRight
-          a "/logout" ["class", "btn btn-default"] []
+          a "/logout" ["class", "btn btn-default"] (text "Logout")
         ]
         nav ["class", "main-nav"] [
           getNavMenu url

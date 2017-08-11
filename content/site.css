@@ -1,7 +1,6 @@
 .wrapper {
     max-width: 1080px;
     margin: 0 auto;
-    font-size: 1.0em;
     font-family: 'Overpass', sans-serif;
     color: #666666;
 }
@@ -13,7 +12,7 @@
 }
 
 span {
-    font-size: larger;
+    font-size: medium;
     margin: 0.3em;
     position: relative;
     top: 1px;
