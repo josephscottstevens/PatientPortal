@@ -2,5 +2,7 @@
 
 open Suave.Html
 
+let x = div [] []
+
 let Home = 
   p [] (text "Forms coming soon!")

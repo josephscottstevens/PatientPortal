@@ -1,6 +1,7 @@
 #r "CSharpLibrary.dll"
 #r "./packages/Suave/lib/net40/Suave.dll"
 #load "dataAccess.fsx"
+#load "pages/login.fsx"
 
 open Suave
 open Suave.Operators
@@ -11,6 +12,7 @@ open Suave.Successful
 open Suave.RequestErrors
 open Suave.Authentication
 open DataAccess
+open Login
 
 let authenticateUser = authenticated Session false
 let deAuthenticateUser = deauthenticate
@@ -19,25 +21,50 @@ let requireAuth =
        (fun () -> Choice2Of2(FORBIDDEN "please authenticate"))
        (fun _ ->  Choice2Of2(BAD_REQUEST "did you fiddle with our cipher text?"))
 
-type LoginResult = Valid | NoUserFound | InvalidPassword
+let getKey r key =
+  match r.request.formData key with
+    | Choice1Of2 str -> Some str
+    | Choice2Of2 _ -> None
 
-let verifyPw pass hashPass =
-  let owin = CSharpLibrary.OwinAuth()
-  if CSharpLibrary.OwinAuth().VerifyHashedPassword(pass, hashPass) then
-      Valid
-  else 
-      NoUserFound
-
-let tryLogin param =
-    let user, pw = param
-    let aspNetUser = DataAccess.getUsersByEmail user |> Seq.tryHead
+let verifyPass (pw:string option) (pwHash: string option) =
+  if pw.IsNone then
+    false
+  elif pwHash.IsNone then
+    false
+  else
+    CSharpLibrary.OwinAuth().VerifyHashedPassword(pw.Value, pwHash.Value)
+    
+let tryLogin (b:Html.Node -> string) (a:HttpContext) =
+    let usr = getKey a "UserName"
+    let pw = getKey a "Password"
+    let aspNetUser =
+        match usr with 
+        | Some t -> DataAccess.getUsersByEmail t |> Seq.tryHead
+        | None -> None
 
     let result =
-        match aspNetUser with 
-        | Some t -> verifyPw pw t.PasswordHash.Value
-        | None -> NoUserFound
+        if usr.IsNone then
+            NoUserName
+        elif pw.IsNone then
+            NoPassword
+        elif aspNetUser.IsNone then
+            NoUserFound
+        elif not (verifyPass pw aspNetUser.Value.PasswordHash) then
+            InvalidPassword
+        else
+            Valid
+    
+    OK "" a
+// let tryLogin param =
+//     let user, pw = param
+//     let aspNetUser = DataAccess.getUsersByEmail user |> Seq.tryHead
 
-    match result with
-    | Valid           -> Redirection.FOUND "/"
-    | NoUserFound     -> Redirection.FOUND "/login/"
-    | InvalidPassword -> Redirection.FOUND "/login/"
+//     let result =
+//         match aspNetUser with 
+//         | Some t -> verifyPw pw t.PasswordHash.Value
+//         | None -> NoUserFound
+
+//     match result with
+//     | Valid           -> Redirection.FOUND "/"
+//     | NoUserFound     -> Redirection.FOUND "/login/"
+//     | InvalidPassword -> Redirection.FOUND "/login/"

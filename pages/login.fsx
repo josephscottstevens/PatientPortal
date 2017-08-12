@@ -2,32 +2,23 @@
 
 open Suave.Html
 
+type LoginResult = Initial | Valid | NoUserFound | InvalidPassword | NoUserName | NoPassword
+
 let h2 = tag "h2"
 let label = tag "label"
 
-let Home = 
+let form = tag "form"
+let Home (result: LoginResult) = 
 
-  div [] [
+  form ["action", "/login"; "method", "post"] [
     h2 [] (text "Log in.")
-    div ["class", "row"] [
-      div ["class", "col-md-8"] [
-        div ["class", "form-group"] [
-          label ["class", "col-md-2 control-label"] (text "Email")
-          div ["class", "col-md-10"] [
-            input ["class", "input-validation-error form-control"; "id", "Email"; "type", "text"]
-            span ["class", "field-validation-error text-danger"; "id", "Email_validationMessage"; "style", "display: none" ] (text "The Email field is required.")
-          ]
-        ]
-        div ["class", "form-group"] [
-          label ["class", "col-md-2 control-label"] (text "Password")
-          div ["class", "col-md-10"] [
-            input ["class", "input-validation-error form-control"; "id", "Password"; "type", "text"]
-            span ["class", "field-validation-error text-danger"; "id", "Password_validationMessage"; "style", "display: none" ] (text "The Password field is required.")
-          ]
-        ]
-        div ["class", "form-group"] [
-          input ["type", "submit"; "value", "Log in"]
-        ]
-      ]
+    div [] [
+      text "UserName" |> List.head
+      input ["type", "text"; "name", "UserName"]
     ]
+    div [] [
+      text "Password" |> List.head
+      input ["type", "text"; "name", "Password"]
+    ]
+    input ["type", "submit"; "value", "Submit"]
   ]

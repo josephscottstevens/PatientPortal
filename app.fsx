@@ -16,8 +16,11 @@ let app =
     [
       Files.browseHome
       path "/"            >=> OK (basePage "/" HomePage.Home)
-      path "/login"       >=> OK (insecurePage Login.Home)
-      pathScan "/login/%s/%s/" tryLogin
+      path "/login"       >=> 
+        choose [
+          GET  >=> OK (insecurePage (Login.Home Login.Initial))
+          POST >=> tryLogin insecurePage
+        ]
       requireAuth (
         choose [
           path "/careplan"    >=> OK (basePage "/careplan" CarePlan.Home)
