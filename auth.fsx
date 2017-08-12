@@ -23,7 +23,11 @@ let requireAuth =
 
 let getKey r key =
   match r.request.formData key with
-    | Choice1Of2 str -> Some str
+    | Choice1Of2 str -> 
+        if str = "" then 
+            None 
+        else 
+            Some str
     | Choice2Of2 _ -> None
 
 let verifyPass (pw:string option) (pwHash: string option) =
@@ -34,7 +38,7 @@ let verifyPass (pw:string option) (pwHash: string option) =
   else
     CSharpLibrary.OwinAuth().VerifyHashedPassword(pw.Value, pwHash.Value)
     
-let tryLogin (b:Html.Node -> string) (a:HttpContext) =
+let tryLogin (partialTemplate:Html.Node -> string) (a:HttpContext) =
     let usr = getKey a "UserName"
     let pw = getKey a "Password"
     let aspNetUser =
@@ -53,18 +57,6 @@ let tryLogin (b:Html.Node -> string) (a:HttpContext) =
             InvalidPassword
         else
             Valid
-    
-    OK "" a
-// let tryLogin param =
-//     let user, pw = param
-//     let aspNetUser = DataAccess.getUsersByEmail user |> Seq.tryHead
 
-//     let result =
-//         match aspNetUser with 
-//         | Some t -> verifyPw pw t.PasswordHash.Value
-//         | None -> NoUserFound
-
-//     match result with
-//     | Valid           -> Redirection.FOUND "/"
-//     | NoUserFound     -> Redirection.FOUND "/login/"
-//     | InvalidPassword -> Redirection.FOUND "/login/"
+    let loginPage = partialTemplate (Login.Home result)
+    OK loginPage a
