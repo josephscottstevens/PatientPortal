@@ -21,6 +21,7 @@ let app =
           GET  >=> getLogin
           POST >=> tryLogin
         ]
+      path "/logout"      >=> OK (basePage "/" Logout.Home)
       requireAuth (
         choose [
           path "/careplan"    >=> OK (basePage "/careplan" CarePlan.Home)

@@ -16,7 +16,6 @@ let getErrorMessage a =
 
 let h2 = tag "h2"
 let label = tag "label"
-
 let form = tag "form"
 let Home (result: LoginResult) = 
   form ["action", "/login"; "method", "post"] [
