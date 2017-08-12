@@ -18,8 +18,8 @@ let app =
       path "/"            >=> OK (basePage "/" HomePage.Home)
       path "/login"       >=> 
         choose [
-          GET  >=> OK (insecurePage (Login.Home Login.Initial))
-          POST >=> tryLogin insecurePage
+          GET  >=> getLogin
+          POST >=> tryLogin
         ]
       requireAuth (
         choose [
