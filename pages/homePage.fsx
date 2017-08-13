@@ -1,6 +1,6 @@
-#r "../packages/Suave.Experimental/lib/net40/Suave.Experimental.dll"
+#load "suaveHtml.fsx"
 
-open Suave.Html
+open SuaveHtml
 
 let Home = 
   p [] (text "Here is some test text, we want to add Incomplete forms, messages, new badges and that sort of thing here.")

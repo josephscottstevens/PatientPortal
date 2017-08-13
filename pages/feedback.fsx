@@ -1,6 +1,6 @@
-#r "../packages/Suave.Experimental/lib/net40/Suave.Experimental.dll"
+#load "suaveHtml.fsx"
 
-open Suave.Html
+open SuaveHtml
 
 let h4 = tag "h4"
 let textarea = tag "textarea"

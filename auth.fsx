@@ -1,8 +1,8 @@
 #r "CSharpLibrary.dll"
 #r "./packages/Suave/lib/net40/Suave.dll"
-#r "./packages/Suave.Experimental/lib/net40/Suave.Experimental.dll"
 #load "dataAccess.fsx"
 #load "pages/login.fsx"
+#load "pages/suaveHtml.fsx"
 
 open Suave
 open Suave.Operators
@@ -13,7 +13,7 @@ open Suave.Successful
 open Suave.RequestErrors
 open Suave.Authentication
 open DataAccess
-open Suave.Html
+open SuaveHtml
 open Login
 
 let authenticateUser (a:HttpContext) = authenticated Session false a

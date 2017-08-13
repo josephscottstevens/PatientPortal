@@ -1,6 +1,5 @@
-#r "../packages/Suave.Experimental/lib/net40/Suave.Experimental.dll"
-
-open Suave.Html
+#load "suaveHtml.fsx"
+open SuaveHtml
 
 type LoginResult = Initial | Valid | NoUserFound | InvalidPassword | NoUserName | NoPassword
 let getErrorMessage a =

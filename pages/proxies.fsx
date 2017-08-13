@@ -1,6 +1,6 @@
-#r "../packages/Suave.Experimental/lib/net40/Suave.Experimental.dll"
+#load "suaveHtml.fsx"
 
-open Suave.Html
+open SuaveHtml
 
 let Home = 
   let ul = tag "ul"

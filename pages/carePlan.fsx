@@ -1,7 +1,7 @@
-#r "../packages/Suave.Experimental/lib/net40/Suave.Experimental.dll"
+#load "suaveHtml.fsx"
 #load "../dataAccess.fsx"
 
-open Suave.Html
+open SuaveHtml
 open DataAccess
 
 let Home = 
