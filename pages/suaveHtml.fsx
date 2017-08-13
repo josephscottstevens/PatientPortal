@@ -100,12 +100,12 @@ let thead = tag "thead"
 let tbody = tag "tbody"
 let tfoot = tag "tfoot"
 
-let stringToNode attr (str: string option) =
+let stringToNode (str: string option) =
   let t = defaultArg str ""
-  td attr (text t)
+  td [] (text t)
   
-let reduceSequence attr count seqList = 
+let reduceSequence  count seqList = 
   seqList
-  |> Seq.map (fun t -> tr attr t)
+  |> Seq.map (fun t -> tr [] t)
   |> Seq.take count
   |> Seq.toList
