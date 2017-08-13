@@ -4,4 +4,3 @@ nuget Fsharp.Compiler.Service
 nuget itextsharp
 nuget SqlProvider
 nuget Suave
-nuget Suave.Experimental
