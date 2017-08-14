@@ -2,39 +2,40 @@
 #load "../dataAccess.fsx"
 
 open SuaveHtml
-open DataAccess
+open DataAccess 
 
 let js = 
   """
-  $(document).ready(function() {
-    var table = $('#example').DataTable();
-  });
-  """
-
+  $(function() {
+	$("#Grid").ejGrid({
+		dataSource: ej.DataManager($("#Table1")),
+    allowPaging : true,
+		allowSorting : true,
+		columns: ["FullName", "Phone", "HomeCity", "HomeState", "HomeZip"]
+	});
+});
+ """
 let data = 
   DataAccess.getUsers
-  |> Seq.where (fun t -> t.NameComputed.IsSome && t.NameComputed.Value <> "")
   |> Seq.where (fun t -> t.HomePhone.IsSome)
-  |> Seq.sortByDescending (fun t -> t.NameComputed)
   |> Seq.map (
     fun t -> 
-      [t.NameComputed; t.HomePhone; t.HomeCity; t.HomeState; t.HomeZip; t.Gender]
+      [t.NameComputed; t.HomePhone; t.HomeCity; t.HomeState; t.HomeZip]
       |> List.map stringToNode
       )
   |> reduceSequence 200
 
 let Home = 
-  div [] [
+  div ["id", "Grid"] [
     script [ "type", "text/javascript" ] (rawText js)
-    table ["id", "example"; "class", "display"] [
+    table ["id", "Table1"] [
       thead [] [
          tr [] [
-          th [] (text "Full Name")
+          th [] (text "FullName")
           th [] (text "Phone")
           th [] (text "HomeCity")
           th [] (text "HomeState")
           th [] (text "HomeZip")
-          th [] (text "Secret Password")
         ]
       ]
       tbody [] data
