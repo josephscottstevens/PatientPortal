@@ -1,5 +1,5 @@
 #r "./packages/Suave/lib/net40/Suave.dll"
-#load "pages/suaveHtml.fsx"
+#r "suaveHtml.dll"
 #load "pages/carePlan.fsx"
 #load "pages/homePage.fsx"
 #load "pages/feedback.fsx"

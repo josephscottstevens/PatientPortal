@@ -1,9 +1,8 @@
-#load "suaveHtml.fsx"
+#r "../SuaveHtml.dll"
 #load "../dataAccess.fsx"
 
-open SuaveHtml
 open DataAccess
-
+open SuaveHtml
 let Home = 
   let carePlans = DataAccess.getCarePlans 1
 

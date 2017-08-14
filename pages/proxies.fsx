@@ -1,10 +1,9 @@
-#load "suaveHtml.fsx"
+#r "../SuaveHtml.dll"
 
 open SuaveHtml
 
 let Home = 
-  let ul = tag "ul"
-  let li = tag "li"
+  
   
   div [] [
     p [] (text "Your proxies:")

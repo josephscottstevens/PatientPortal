@@ -1,4 +1,4 @@
-#load "suaveHtml.fsx"
+#r "../SuaveHtml.dll"
 open SuaveHtml
 
 type LoginResult = Initial | Valid | NoUserFound | InvalidPassword | NoUserName | NoPassword
@@ -13,9 +13,7 @@ let getErrorMessage a =
     | NoPassword -> "Password is required"
   p ["style", "color: red"] (text msg)
 
-let h2 = tag "h2"
-let label = tag "label"
-let form = tag "form"
+
 let Home (result: LoginResult) = 
   form ["action", "/login"; "method", "post"] [
     h2 [] (text "Log in.")

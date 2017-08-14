@@ -1,8 +1,8 @@
+#r "../SuaveHtml.dll"
 #r "CSharpLibrary.dll"
 #r "./packages/Suave/lib/net40/Suave.dll"
 #load "dataAccess.fsx"
 #load "pages/login.fsx"
-#load "pages/suaveHtml.fsx"
 
 open Suave
 open Suave.Operators

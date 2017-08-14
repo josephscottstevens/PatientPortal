@@ -1,6 +1,6 @@
-#load "suaveHtml.fsx"
+#r "../SuaveHtml.dll"
 
 open SuaveHtml
 
 let Home = 
-  p [] (text "Here is some test text, we want to add Incomplete forms, messages, new badges and that sort of thing here.")
+  p [] (text "Here is some test text, not really sure what to put on home page just yet")

@@ -1,4 +1,4 @@
-#load "suaveHtml.fsx"
+#r "../SuaveHtml.dll"
 #load "../dataAccess.fsx"
 
 open SuaveHtml
