@@ -4,19 +4,6 @@
 open SuaveHtml
 open DataAccess 
 
-let js = 
-  """
-  $(function() {
-	$("#Grid").ejGrid({
-		dataSource: ej.DataManager($("#Table1")),
-    toolbarSettings : { showToolbar : true, toolbarItems : ["search"] },
-    allowPaging : true,
-		allowSorting : true,
-    allowSearching : true,
-		columns: ["FullName", "Phone", "HomeCity", "HomeState", "HomeZip"]
-	});
-});
- """
 let data = 
   DataAccess.getUsers
   |> Seq.where (fun t -> t.HomePhone.IsSome)
@@ -29,7 +16,7 @@ let data =
 
 let Home = 
   div ["id", "Grid"] [
-    script [ "type", "text/javascript" ] (rawText js)
+    script [ "type", "text/javascript"; "src", "source/code.js" ] []
     table ["id", "Table1"] [
       thead [] [
          tr [] [
