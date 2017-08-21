@@ -4,29 +4,72 @@
 open SuaveHtml
 open DataAccess 
 
+let str t = defaultArg t ""
+  
+let reduceSequence count seqList = 
+    seqList
+    |> Seq.map (fun t -> tr [] t)
+    |> Seq.take count
+    |> Seq.toList
+
+let columns = ["Name"; "Home Phone"; "Home City"; "Home State"; "Home Zip"]
+
+let makeHeaderCol ((i:int), (colName:string)) = 
+  let colNoSp = colName.Replace(" ", "")
+  let className = colNoSp + " " + colNoSp + "Header"
+  let dataCol = string (i + 1)
+  let style = "grid-row: 1; grid-column: " + (string (i + 1))
+  let node =
+    if i = 0 then
+      []
+    else
+      (text colName)
+  div ["class", className; "data-col", dataCol; "style", style; "id", colNoSp] node
+let headerRow (cols: string list) =
+  let rows = 
+    (["Pre"] @ cols)
+    |> List.indexed
+    |> List.map makeHeaderCol
+  [div ["class", "row"; "style", "grid-row: 1;"] rows]
+
+let columnBuilder (lst:list<string * string>) =
+  let columns = ["Pre", ">"] @ lst
+  columns
+  |> List.indexed 
+  |> List.map (fun (i, (name, value)) -> 
+      let clsName = name + " " + name + "Col"
+      let column = string (i + 1)
+      let style = "grid-row: 1; grid-column: " + column
+      div ["class", clsName; "data-col", column; "style", style] (text value)
+      )
+
 let data = 
   DataAccess.getUsers
   |> Seq.where (fun t -> t.HomePhone.IsSome)
-  |> Seq.map (
-    fun t -> 
-      [t.NameComputed; t.HomePhone; t.HomeCity; t.HomeState; t.HomeZip]
-      |> List.map stringToNode
-      )
-  |> reduceSequence 200
+  |> Seq.map (fun t -> 
+      [
+        "Name", str t.HomePhone
+        "HomePhone", str t.NameComputed
+        "HomeCity", str t.HomeCity
+        "HomeState", str t.HomeState
+        "HomeZip", str t.HomeZip
+      ] 
+      |> columnBuilder)
+   |> Seq.toList
+
+let grid =
+  data
+  |> Seq.indexed
+  |> Seq.map (fun (i:int, lst: Node list) -> 
+    let colStyle = "grid-row: " + (string (i + 1))
+    let attrPart = ["class", "row"; "style", colStyle]
+    let attr =
+      if i = 0 then 
+        attrPart
+      else 
+        attrPart @ ["data-row", (string i)]
+    div attr lst)
+  |> Seq.toList  
 
 let Home = 
-  div ["id", "Grid"] [
-    script [ "type", "text/javascript"; "src", "source/code.js" ] []
-    table ["id", "Table1"] [
-      thead [] [
-         tr [] [
-          th [] (text "FullName")
-          th [] (text "Phone")
-          th [] (text "HomeCity")
-          th [] (text "HomeState")
-          th [] (text "HomeZip")
-        ]
-      ]
-      tbody [] data
-    ]
-  ]
+  div ["class", "Grid"] ((headerRow columns) @ grid)

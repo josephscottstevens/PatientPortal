@@ -137,3 +137,25 @@ nav a {
     position: relative;
     margin: auto;
 }
+
+.wrapper { 
+    display: grid; 
+    grid-template-columns: 1fr;
+    grid-template-rows:  repeat(-1, auto);
+    grid-gap: 5px;
+}
+.wrapper > div {
+    border-color: red;
+}
+.row { 
+    display: grid; 
+    grid-template-columns: 20px 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat(-1, auto);
+    grid-gap: 5px;
+    grid-column: 1;
+}
+.detailRow {
+    grid-row: 2;
+    grid-column: 1 / 6;
+    background-color: lightgray;
+}
