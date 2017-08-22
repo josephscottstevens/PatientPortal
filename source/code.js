@@ -24,7 +24,6 @@ function drop(ev) {
 function filterMe(e) {
   var targetClass = "." + e.parentNode.id + "Col";
   document.querySelectorAll(targetClass).forEach(function(t) {
-    var rowQuery = "[data-row = '" + t.parentNode.getAttribute("data-row") + "']";
     if (t.innerText.toLowerCase().includes(e.value.toLowerCase())) {
       t.parentNode.style.display = "";
     } else {
