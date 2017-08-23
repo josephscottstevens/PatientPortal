@@ -4,15 +4,50 @@
 open SuaveHtml
 open DataAccess 
 
+// Public
+type Name = string
+type SortMode = NumberSort | StringSort
+type FilterMode = Enabled | Disabled
+type ColumnInfo = Name * SortMode * FilterMode
+
+// Private
+type Id = string
+type ColumnNumber = int
+type Column = Id * ColumnNumber * ColumnInfo
 let str t = defaultArg t ""
+// For Testing
+let x:ColumnInfo = "bob", NumberSort, Enabled
+let a, b, c = x
+let getColName (colInfo:ColumnInfo) =
+  let a, b, c = colInfo
+  a
+
+let getId colInfo = 
+  let zz:string = getColName colInfo
+  let zzz:Id = zz.Replace(" ", "")
+  zzz
+// END
+
+let columnInfoList:ColumnInfo list = 
+  [
+    "Name",       StringSort, Enabled
+    "Home Phone", StringSort, Enabled
+    "Home City",  StringSort, Enabled
+    "Home State", StringSort, Enabled
+    "Home Zip",   StringSort, Enabled
+  ]
+
+let columnList:Column list =
+  columnInfoList
+  |> List.indexed
+  |> List.map (fun (i, col) -> getId col, i + 1, col)
+
   
 let reduceSequence count seqList = 
     seqList
     |> Seq.map (fun t -> tr [] t)
     |> Seq.take count
     |> Seq.toList
-
-let columns = ["Name"; "Home Phone"; "Home City"; "Home State"; "Home Zip"]
 
 let makeHeaderCol ((i:int), (colName:string)) = 
   let colNoSp = colName.Replace(" ", "")
