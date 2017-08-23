@@ -16,12 +16,9 @@ let str t = defaultArg t ""
 // For Testing
 let x:ColumnInfo = "bob", NumberSort, Enabled
 let a, b, c = x
-let getColName (colInfo:ColumnInfo) =
-  let a, b, c = colInfo
-  a
 
 let getId colInfo = 
-  let colName:string = getColName colInfo
+  let (colName:string), _, _ = colInfo
   let idNoSpaces:Id = colName.Replace(" ", "")
   idNoSpaces
 // END
@@ -41,12 +38,6 @@ let columnList:Column list =
   |> List.indexed
   |> List.map (fun (i, col) -> getId col, i + 1, col)
 // END
-  
-let reduceSequence count seqList = 
-    seqList
-    |> Seq.map (fun t -> tr [] t)
-    |> Seq.take count
-    |> Seq.toList
 
 let makeHeaderCol ((i:int), (colName:string)) = 
   let colNoSp = colName.Replace(" ", "")
