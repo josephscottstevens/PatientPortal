@@ -8,35 +8,36 @@ open DataAccess
 type Name = string
 type SortMode = NumberSort | StringSort
 type FilterMode = Enabled | Disabled
-type ColumnInfo = Name * SortMode * FilterMode
+type DataValue = string
+type ColumnInfo = Name * SortMode * FilterMode * DataValue
 type Id = string
 type ColumnNumber = int
 type Column = Id * ColumnNumber * ColumnInfo
 let str t = defaultArg t ""
-// For Testing
-let x:ColumnInfo = "bob", NumberSort, Enabled
-let a, b, c = x
 
 let getId colInfo = 
-  let (colName:string), _, _ = colInfo
+  let (colName:string), _, _, _ = colInfo
   let idNoSpaces:Id = colName.Replace(" ", "")
   idNoSpaces
-// END
 
-// Begin user column declaration
-let columnInfoList:ColumnInfo list = 
-  [
-    "Name",       StringSort, Enabled
-    "Home Phone", StringSort, Enabled
-    "Home City",  StringSort, Enabled
-    "Home State", StringSort, Enabled
-    "Home Zip",   StringSort, Enabled
-  ]
-
-let columnList:Column list =
+let getColumnList (columnInfoList: ColumnInfo list) =
   columnInfoList
   |> List.indexed
   |> List.map (fun (i, col) -> getId col, i + 1, col)
+// END
+
+// Begin user column declaration
+let columns = 
+  DataAccess.getUsers
+  |> Seq.where (fun t -> t.HomePhone.IsSome)
+  |> Seq.map (fun t -> 
+      [
+        "Name",       StringSort, Enabled, str t.HomePhone
+        "Home Phone", StringSort, Enabled, str t.NameComputed
+        "Home City",  StringSort, Enabled, str t.HomeCity
+        "Home State", StringSort, Enabled, str t.HomeState
+        "Home Zip",   StringSort, Enabled, str t.HomeZip
+      ]: ColumnInfo list)
 // END
 
 let makeHeaderCol ((i:int), (colName:string)) = 
@@ -68,19 +69,7 @@ let columnBuilder (lst:list<string * string>) =
       div ["class", clsName; "data-col", column; "style", style] (text value)
       )
 
-let data = 
-  DataAccess.getUsers
-  |> Seq.where (fun t -> t.HomePhone.IsSome)
-  |> Seq.map (fun t -> 
-      [
-        "Name", str t.HomePhone
-        "HomePhone", str t.NameComputed
-        "HomeCity", str t.HomeCity
-        "HomeState", str t.HomeState
-        "HomeZip", str t.HomeZip
-      ] 
-      |> columnBuilder)
-   |> Seq.toList
+
 
 let grid =
   data
