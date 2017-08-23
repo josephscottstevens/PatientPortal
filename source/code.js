@@ -16,7 +16,7 @@ function drop(ev) {
   var targetCol = targetDiv.style.gridColumnStart;
   // Bit of a gotcha here, if you give input an ID, this will break;
   var targetClass = (targetDiv.id != "") ? "." + targetDiv.id : "." + targetDiv.parentNode.id;
-  
+
   document.querySelectorAll(sourceClass).forEach(t => t.style.gridColumnStart = targetCol);
   document.querySelectorAll(targetClass).forEach(t => t.style.gridColumnStart = sourceCol);
 }
@@ -37,7 +37,7 @@ function compareNumbers(a, b) {
 }
 
 function sortMe(e) {
-  var targetClass = "." + e.parentNode.id + "Col";
+  var targetClass = "." + e.target.id + "Col";
   var data = [];
   document.querySelectorAll(targetClass).forEach(function(t) {
     data.push({value:t.innerText, rowNum:t.parentNode.getAttribute("data-row")});
@@ -54,11 +54,11 @@ function toggleMe(e) {
   var detailRow = Array.prototype.filter.call(siblings, function(child){
     return child.className == "detailRow";
   })[0];
-  if (e.target.value == ">") {
-    e.target.value = "↓";
+  if (e.target.src.includes("rightArrow.png")) {
+    e.target.src = "downArrow.png";
     detailRow.style.display = "";
   } else {
-    e.target.value = ">";
+    e.target.src = "rightArrow.png";
     detailRow.style.display = "none";
   }
 }

@@ -89,19 +89,8 @@ let basePage url content =
   html [] [
     head [] [
       title [] "Home"
-      script ["src", "https://code.jquery.com/jquery-1.10.2.min.js"] []
-      script ["src", "http://cdn.syncfusion.com/js/assets/external/jquery.easing.1.3.min.js"] []
-      script ["src", "http://cdn.syncfusion.com/js/assets/external/jquery.globalize.min.js"] []
-      script ["src", "http://cdn.syncfusion.com/js/assets/external/jsrender.min.js"] []
-      script ["src", "http://cdn.syncfusion.com/13.2.0.29/js/web/ej.web.all.min.js"] []
-
       link [ "rel", "stylesheet"; "href", "https://fonts.googleapis.com/css?family=Overpass" ]
       link [ "rel", "stylesheet"; "href", "content/site.css"; "type", "text/css" ]
-      link [ "rel", "stylesheet"; "href", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"; ]
-      script [ "src", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"] []
-      link [ "rel", "stylesheet"; "href", "http://cdn.syncfusion.com/13.2.0.29/js/web/flat-azure/ej.web.all.min.css"; ]
-      
-      
       meta [ "charset", "utf-8"]
       meta [ "name", "viewport"; "content", "width=device-width, initial-scale=1"]
     ]
