@@ -9,8 +9,6 @@ type Name = string
 type SortMode = NumberSort | StringSort
 type FilterMode = Enabled | Disabled
 type ColumnInfo = Name * SortMode * FilterMode
-
-// Private
 type Id = string
 type ColumnNumber = int
 type Column = Id * ColumnNumber * ColumnInfo
@@ -23,11 +21,12 @@ let getColName (colInfo:ColumnInfo) =
   a
 
 let getId colInfo = 
-  let zz:string = getColName colInfo
-  let zzz:Id = zz.Replace(" ", "")
-  zzz
+  let colName:string = getColName colInfo
+  let idNoSpaces:Id = colName.Replace(" ", "")
+  idNoSpaces
 // END
 
+// Begin user column declaration
 let columnInfoList:ColumnInfo list = 
   [
     "Name",       StringSort, Enabled
@@ -41,7 +40,7 @@ let columnList:Column list =
   columnInfoList
   |> List.indexed
   |> List.map (fun (i, col) -> getId col, i + 1, col)
-
+// END
   
 let reduceSequence count seqList = 
     seqList
