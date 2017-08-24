@@ -91,6 +91,7 @@ let basePage url content =
       title [] "Home"
       link [ "rel", "stylesheet"; "href", "https://fonts.googleapis.com/css?family=Overpass" ]
       link [ "rel", "stylesheet"; "href", "content/site.css"; "type", "text/css" ]
+      script ["type", "text/javascript"; "src", "source/code.js"] []
       meta [ "charset", "utf-8"]
       meta [ "name", "viewport"; "content", "width=device-width, initial-scale=1"]
     ]

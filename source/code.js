@@ -62,3 +62,13 @@ function toggleMe(e) {
     detailRow.style.display = "none";
   }
 }
+
+function init()
+{
+    websocket = new WebSocket("ws://"+window.location.host+"/websocket");
+    websocket.onmessage = function(evt) {
+      alert("reload");
+      location.reload(); 
+    };
+}
+window.addEventListener("load", init, false);

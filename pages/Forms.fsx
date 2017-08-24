@@ -69,21 +69,20 @@ let columnBuilder (lst:list<string * string>) =
       div ["class", clsName; "data-col", column; "style", style] (text value)
       )
 
-
-
-let grid =
-  data
-  |> Seq.indexed
-  |> Seq.map (fun (i:int, lst: Node list) -> 
-    let colStyle = "grid-row: " + (string (i + 1))
-    let attrPart = ["class", "row"; "style", colStyle]
-    let attr =
-      if i = 0 then 
-        attrPart
-      else 
-        attrPart @ ["data-row", (string i)]
-    div attr lst)
-  |> Seq.toList  
+// let grid =
+//   data
+//   |> Seq.indexed
+//   |> Seq.map (fun (i:int, lst: Node list) -> 
+//     let colStyle = "grid-row: " + (string (i + 1))
+//     let attrPart = ["class", "row"; "style", colStyle]
+//     let attr =
+//       if i = 0 then 
+//         attrPart
+//       else 
+//         attrPart @ ["data-row", (string i)]
+//     div attr lst)
+//   |> Seq.toList  
 
 let Home = 
-  div ["class", "Grid"] ((headerRow columns) @ grid)
+  div [] (text "testing4")
+  //div ["class", "Grid"] ((headerRow columns) @ grid)

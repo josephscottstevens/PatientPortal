@@ -16,7 +16,11 @@ open System.IO
 open Suave
 open Suave.Http
 open Suave.Web
+open Suave.Operators
 open Suave.Tcp
+open Suave.Sockets
+open Suave.Sockets.Control
+open Suave.WebSocket
 open Microsoft.FSharp.Compiler.Interactive.Shell
 
 // --------------------------------------------------------------------------------------
@@ -37,15 +41,31 @@ let fsiSession =
     let argv = Array.append [|"/fake/fsi.exe"; "--quiet"; "--noninteractive"; "-d:DO_NOT_START_SERVER"|] [||]
     FsiEvaluationSession.Create (fsiConfig, argv, inStream, outStream, errStream)
 
+let refreshEvent = new Event<_>()
+
 let reportFsiError (e:exn) =
     traceError "Reloading app.fsx script failed."
     traceError (sprintf "Message: %s\nError: %s" e.Message (sbErr.ToString().Trim()))
     sbErr.Clear() |> ignore
 
+let byteResponse (str:string) =
+    str
+    |> System.Text.Encoding.ASCII.GetBytes
+    |> ByteSegment
+
+let socketHandler (webSocket : WebSocket) =
+  fun cx -> socket {
+    while true do
+      let! refreshed =
+        Control.Async.AwaitEvent(refreshEvent.Publish)
+        |> Suave.Sockets.SocketOp.ofAsync
+        
+      do! webSocket.send Text (byteResponse "refreshed") true
+  }
 let reloadScript _ =
     try
         traceImportant "Reloading..."
-        let appFsx = __SOURCE_DIRECTORY__ @@ "app.fsx"
+        let appFsx = __SOURCE_DIRECTORY__  + "\\app.fsx"
         fsiSession.EvalInteraction (sprintf "#load @\"%s\"" appFsx)
         fsiSession.EvalInteraction ("open App")
         match fsiSession.EvalExpression("app") with
@@ -70,11 +90,17 @@ let serverConfig =
 let reloadAppServer _ =
     reloadScript() |> Option.iter (fun app ->
         currentApp.Value <- app
+        refreshEvent.Trigger()
         traceImportant "New version of app.fsx loaded!")
 
 let startSuave() =
     // Start Suave on localhost
-    let app ctx = currentApp.Value ctx
+    let appOriginal ctx = currentApp.Value ctx
+    let app = 
+        choose [
+            appOriginal
+            Filters.path "/websocket" >=> handShake socketHandler
+        ]
     let _, server = startWebServerAsync serverConfig app
     reloadAppServer()
     Async.Start(server)
@@ -85,7 +111,7 @@ let openBrowser() =
 
 let watch() =
     // Watch for changes & reload when files change
-    use watcher = !! (__SOURCE_DIRECTORY__ @@ "*.*") |> WatchChanges (fun _ -> reloadAppServer())
+    use watcher = !! (__SOURCE_DIRECTORY__ + "\\*.*") |> WatchChanges (fun _ -> reloadAppServer())
     traceImportant "Waiting for app.fsx edits. Press any key to stop."
     System.Console.ReadLine() |> ignore
 
