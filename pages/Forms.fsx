@@ -6,8 +6,8 @@ open DataAccess
 
 // Public
 type Name = string
-type SortMode = NumberSort | StringSort
-type FilterMode = Enabled | Disabled
+type SortMode = NoSort | NumberSort | SortByString
+type FilterMode = NoFilter | FilterByString
 type DataValue = string
 type ColumnInfo = Name * SortMode * FilterMode * DataValue
 type Id = string
@@ -19,11 +19,10 @@ let getId colInfo =
   let (colName:string), _, _, _ = colInfo
   let idNoSpaces:Id = colName.Replace(" ", "")
   idNoSpaces
-
-let getColumnList (columnInfoList: ColumnInfo list) =
+let getColumnList (columnInfoList: ColumnInfo seq) =
   columnInfoList
-  |> List.indexed
-  |> List.map (fun (i, (col)) -> getId col, i + 1, col):Column list
+  |> Seq.indexed
+  |> Seq.map (fun (i, (col)) -> getId col, i + 1, col):Column seq
 // END
 
 // Begin user column declaration
@@ -32,15 +31,15 @@ let columns =
   |> Seq.where (fun t -> t.HomePhone.IsSome)
   |> Seq.map (fun t -> 
       [
-        "Name",       StringSort, Enabled, str t.HomePhone
-        "Home Phone", StringSort, Enabled, str t.NameComputed
-        "Home City",  StringSort, Enabled, str t.HomeCity
-        "Home State", StringSort, Enabled, str t.HomeState
-        "Home Zip",   StringSort, Enabled, str t.HomeZip
+        "Pre",        NoSort    , NoFilter,       ""  
+        "Name",       SortByString, FilterByString, str t.HomePhone
+        "Home Phone", SortByString, FilterByString, str t.NameComputed
+        "Home City",  SortByString, FilterByString, str t.HomeCity
+        "Home State", SortByString, FilterByString, str t.HomeState
+        "Home Zip",   SortByString, FilterByString, str t.HomeZip
       ]
       |> getColumnList)
 // END
-Seq.head columns
 let makeHeaderCol ((i:int), (colName:string)) = 
   let colNoSp = colName.Replace(" ", "")
   let className = colNoSp + " " + colNoSp + "Header"
