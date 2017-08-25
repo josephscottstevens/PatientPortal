@@ -23,7 +23,7 @@ let getId colInfo =
 let getColumnList (columnInfoList: ColumnInfo list) =
   columnInfoList
   |> List.indexed
-  |> List.map (fun (i, col) -> getId col, i + 1, col)
+  |> List.map (fun (i, (col)) -> getId col, i + 1, col):Column list
 // END
 
 // Begin user column declaration
@@ -37,9 +37,10 @@ let columns =
         "Home City",  StringSort, Enabled, str t.HomeCity
         "Home State", StringSort, Enabled, str t.HomeState
         "Home Zip",   StringSort, Enabled, str t.HomeZip
-      ]: ColumnInfo list)
+      ]
+      |> getColumnList)
 // END
-
+Seq.head columns
 let makeHeaderCol ((i:int), (colName:string)) = 
   let colNoSp = colName.Replace(" ", "")
   let className = colNoSp + " " + colNoSp + "Header"
