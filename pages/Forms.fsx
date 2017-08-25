@@ -32,8 +32,8 @@ let gridData =
   |> Seq.map (fun t -> 
       [
         "Pre",        SortNone    , FilterNone    , ""  
-        "Name",       SortByString, FilterByString, str t.HomePhone
-        "Home Phone", SortByString, FilterByString, str t.NameComputed
+        "Name",       SortByString, FilterByString, str t.NameComputed
+        "Home Phone", SortByString, FilterByString, str t.HomePhone
         "Home City",  SortByString, FilterByString, str t.HomeCity
         "Home State", SortByString, FilterByString, str t.HomeState
         "Home Zip",   SortByString, FilterByString, str t.HomeZip
@@ -41,57 +41,29 @@ let gridData =
       |> getColumns)
 // END
 
-let makeRow ((i:int), (cols:seq<Column>)) =
-  div [] []
-
-let getRows (grid:seq<seq<Column>>) =
-  grid
+let grid =
+  gridData
   |> Seq.indexed
-  |> Seq.map makeRow
-
-let makeHeaderCol ((i:int), (colName:string)) = 
-  let colNoSp = colName.Replace(" ", "")
-  let className = colNoSp + " " + colNoSp + "Header"
-  let dataCol = string (i + 1)
-  let style = "grid-row: 1; grid-column: " + (string (i + 1))
-  let node =
-    if i = 0 then
-      []
+  |> Seq.map(fun (rowNum, columnSeq) ->
+    let nodes =
+      columnSeq
+      |> Seq.indexed
+      |> Seq.map (fun (colNum, t) -> 
+          let id, num, (name, _, _, dataValue) = t
+          let style = "grid-row: 1; grid-column: " + (string (colNum+1))
+          if rowNum = 0 then
+            let classValue = id + " " + id + "Header"
+            div ["class", classValue; "style", style; "id", id] (text name)
+          else
+            let classValue = id + " " + id + "Col"
+            div ["class", classValue; "style", style] (text dataValue))
+      |> Seq.toList        
+    if rowNum = 0 then
+      div ["class", "row"] nodes
     else
-      (text colName)
-  div ["class", className; "data-col", dataCol; "style", style; "id", colNoSp] node
-let headerRow (cols: string list) =
-  let rows = 
-    (["Pre"] @ cols)
-    |> List.indexed
-    |> List.map makeHeaderCol
-  [div ["class", "row"; "style", "grid-row: 1;"] rows]
-
-let columnBuilder (lst:list<string * string>) =
-  let columns = ["Pre", ">"] @ lst
-  columns
-  |> List.indexed 
-  |> List.map (fun (i, (name, value)) -> 
-      let clsName = name + " " + name + "Col"
-      let column = string (i + 1)
-      let style = "grid-row: 1; grid-column: " + column
-      div ["class", clsName; "data-col", column; "style", style] (text value)
-      )
-
-// let grid =
-//   data
-//   |> Seq.indexed
-//   |> Seq.map (fun (i:int, lst: Node list) -> 
-//     let colStyle = "grid-row: " + (string (i + 1))
-//     let attrPart = ["class", "row"; "style", colStyle]
-//     let attr =
-//       if i = 0 then 
-//         attrPart
-//       else 
-//         attrPart @ ["data-row", (string i)]
-//     div attr lst)
-//   |> Seq.toList  
+      div ["class", "row"; "data-row", string rowNum; "style", string (rowNum + 1)] nodes)
+  |> Seq.toList
 
 let Home = 
-  div [] (text "testing4")
+  div [] grid
   //div ["class", "Grid"] ((headerRow columns) @ grid)

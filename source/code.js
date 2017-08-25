@@ -67,7 +67,6 @@ function init()
 {
     websocket = new WebSocket("ws://"+window.location.host+"/websocket");
     websocket.onmessage = function(evt) {
-      alert("reload");
       location.reload(); 
     };
 }
