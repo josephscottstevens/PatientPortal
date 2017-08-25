@@ -6,8 +6,8 @@ open DataAccess
 
 // Public
 type Name = string
-type SortMode = NoSort | NumberSort | SortByString
-type FilterMode = NoFilter | FilterByString
+type SortMode = SortNone | NumberSort | SortByString
+type FilterMode = FilterNone | FilterByString
 type DataValue = string
 type ColumnInfo = Name * SortMode * FilterMode * DataValue
 type Id = string
@@ -19,26 +19,26 @@ let getId colInfo =
   let (colName:string), _, _, _ = colInfo
   let idNoSpaces:Id = colName.Replace(" ", "")
   idNoSpaces
-let getColumnList (columnInfoList: ColumnInfo seq) =
-  columnInfoList
+let getColumns (columnInfoSeq: ColumnInfo seq) =
+  columnInfoSeq
   |> Seq.indexed
   |> Seq.map (fun (i, (col)) -> getId col, i + 1, col):Column seq
 // END
 
 // Begin user column declaration
-let columns = 
+let gridData = 
   DataAccess.getUsers
   |> Seq.where (fun t -> t.HomePhone.IsSome)
   |> Seq.map (fun t -> 
       [
-        "Pre",        NoSort    , NoFilter,       ""  
+        "Pre",        SortNone    , FilterNone    , ""  
         "Name",       SortByString, FilterByString, str t.HomePhone
         "Home Phone", SortByString, FilterByString, str t.NameComputed
         "Home City",  SortByString, FilterByString, str t.HomeCity
         "Home State", SortByString, FilterByString, str t.HomeState
         "Home Zip",   SortByString, FilterByString, str t.HomeZip
       ]
-      |> getColumnList)
+      |> getColumns)
 // END
 let makeHeaderCol ((i:int), (colName:string)) = 
   let colNoSp = colName.Replace(" ", "")
