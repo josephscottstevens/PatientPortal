@@ -32,17 +32,22 @@ function filterMe(e) {
   });
 }
 
-function compareNumbers(a, b) {
+function SortByNumber(a, b) {
   return a.value - b.value;
 }
 
-function sortMe(e) {
+function SortByString(a, b) {
+	var x = a.value.toLowerCase(), y = b.value.toLowerCase();
+    return x < y ? -1 : x > y ? 1 : 0;
+}
+
+function sortMe(e, sortFunc) {
   var targetClass = "." + e.target.id + "Col";
   var data = [];
   document.querySelectorAll(targetClass).forEach(function(t) {
     data.push({value:t.innerText, rowNum:t.parentNode.getAttribute("data-row")});
   });
-  var sortedData = data.sort(compareNumbers);
+  var sortedData = data.sort(sortFunc);
   sortedData.forEach(function (val, idx) {
     var rowSelect = "[data-row = '" + val.rowNum + "']";
     document.querySelector(rowSelect).style.gridRow = idx+2;
@@ -67,7 +72,7 @@ function init()
 {
     websocket = new WebSocket("ws://"+window.location.host+"/websocket");
     websocket.onmessage = function(evt) {
-      location.reload(); 
+      location.reload();
     };
 }
 window.addEventListener("load", init, false);
