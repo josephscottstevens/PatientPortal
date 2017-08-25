@@ -40,6 +40,15 @@ let gridData =
       ]
       |> getColumns)
 // END
+
+let makeRow ((i:int), (cols:seq<Column>)) =
+  div [] []
+
+let getRows (grid:seq<seq<Column>>) =
+  grid
+  |> Seq.indexed
+  |> Seq.map makeRow
+
 let makeHeaderCol ((i:int), (colName:string)) = 
   let colNoSp = colName.Replace(" ", "")
   let className = colNoSp + " " + colNoSp + "Header"
