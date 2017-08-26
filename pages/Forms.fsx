@@ -23,7 +23,7 @@ let getId colInfo =
 let getColumns (columnInfoSeq: ColumnInfo seq) =
   columnInfoSeq
   |> Seq.indexed
-  |> Seq.map (fun (i, (col)) -> getId col, i + 1, col):Column seq
+  |> Seq.map (fun (i, col) -> getId col, i + 1, col):Column seq
 // END
 
 // Begin user column declaration
@@ -53,7 +53,7 @@ let grid =
       |> Seq.indexed
       |> Seq.map (fun (colNum, t) -> 
           let id, num, (name, _, _, dataValue) = t
-          let style = "grid-row: 1; grid-column: " + (colNum+1).ToString()
+          let style = "grid-row: 1; grid-column: " + string(colNum + 1)
           if rowNum = 0 then
             let classValue = id + " " + id + "Header"
             div ["class", classValue; "style", style; "id", id; "onclick", "sortMe(event, SortByString)"] (text name)
@@ -61,11 +61,16 @@ let grid =
             let classValue = id + " " + id + "Col"
             div ["class", classValue; "style", style] (text dataValue))
       |> Seq.toList        
-    let rowStyle = "grid-row: " + (rowNum + 1).ToString()
+    let rowStyle = "grid-row: " + string(rowNum + 1)
+    let showOnly =
+      if rowNum < 100 then
+        ""
+      else
+        ";display: none;"
     if rowNum = 0 then
       div ["class", "row"; "style", rowStyle] nodes
     else
-      div ["class", "row"; "data-row", rowNum.ToString(); "style", rowStyle] nodes)
+      div ["class", "row"; "id", "row" + string rowNum; "style", rowStyle+showOnly] nodes)
   |> Seq.toList
 
 let Home = 

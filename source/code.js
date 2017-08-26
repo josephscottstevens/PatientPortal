@@ -45,12 +45,18 @@ function sortMe(e, sortFunc) {
   var targetClass = "." + e.target.id + "Col";
   var data = [];
   document.querySelectorAll(targetClass).forEach(function(t) {
-    data.push({value:t.innerText, rowNum:t.parentNode.getAttribute("data-row")});
+    data.push({value:t.innerText, rowNum:t.parentNode.id});
   });
   var sortedData = data.sort(sortFunc);
+  var element;
   sortedData.forEach(function (val, idx) {
-    var rowSelect = "[data-row = '" + val.rowNum + "']";
-    document.querySelector(rowSelect).style.gridRow = idx+2;
+    element = document.getElementById(val.rowNum);
+    if (idx < 100) {
+      element.style.display = "";
+    } else {
+      element.style.display = "none";
+    }
+    element.style.gridRow = idx+2;
   });
 }
 
