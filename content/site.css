@@ -159,3 +159,10 @@ nav a {
     grid-column: 1 / 6;
     background-color: lightgray;
 }
+.toggleBtn {
+    cursor: pointer;
+    padding: 8px;
+}
+.Header {
+    cursor: pointer;
+}

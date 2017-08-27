@@ -44,14 +44,26 @@ function SortByString(a, b) {
     return (x < y ? -1 : x > y ? 1 : 0) * sortOrder;
 }
 
+function clearSort() {
+  document.querySelectorAll(".sortBtn").forEach(t => t.src = "content\\noArrow.png");
+}
+
 function sortMe(e, sortFunc) {
+  if (e.target.nodeName === "INPUT") return;
   var targetClass = "." + e.target.id + "Col";
-  if (e.target.src.includes("noArrow.png")) {
-    
-  } else if (e.target.src.includes("noArrow.png")) {
-
-  } else if (e.target.src.includes("noArrow.png")) {
-
+  var toggleBtn = e.target.querySelector(".sortBtn");
+  if (toggleBtn.src.includes("noArrow.png")) {
+    clearSort();
+    toggleBtn.src = "content\\downArrow.png";
+    sortOrder = 1;
+  } else if (toggleBtn.src.includes("downArrow.png")) {
+    clearSort();
+    toggleBtn.src = "content\\upArrow.png";
+    sortOrder = -1;
+  } else if (toggleBtn.src.includes("upArrow.png")) {
+    clearSort();
+    toggleBtn.src = "content\\noArrow.png";
+    sortOrder = 0;
   }
   var data = [];
   document.querySelectorAll(targetClass).forEach(function(t) {

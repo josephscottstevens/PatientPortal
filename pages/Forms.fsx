@@ -79,7 +79,7 @@ let grid =
           let id, num, (name, sortMode, filterMode, dragMode, dataValue) = t
           let style = "grid-row: 1; grid-column: " + string(colNum + 1)
           if rowNum = 0 then
-            let classValue = id + " " + id + "Header"
+            let classValue = id + " " + id + "Header" + " Header"
             let sortImage = img ["class", "sortBtn"; "src", "content\\noArrow.png";]
             div ["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] [Text name; sortImage; getFilter filterMode]
           else
