@@ -23,26 +23,36 @@ function drop(ev) {
 
 function filterMe(e) {
   var targetClass = "." + e.parentNode.id + "Col";
+  var i = 0;
   document.querySelectorAll(targetClass).forEach(function(t) {
-    if (t.innerText.toLowerCase().includes(e.value.toLowerCase())) {
+    if (t.innerText.toLowerCase().includes(e.value.toLowerCase()) && i < 100) {
       t.parentNode.style.display = "";
+      i++;
     } else {
       t.parentNode.style.display = "none";
     }
   });
 }
 
+var sortOrder = 0;
 function SortByNumber(a, b) {
-  return a.value - b.value;
+  return (a.value - b.value) * sortOrder;
 }
 
 function SortByString(a, b) {
 	var x = a.value.toLowerCase(), y = b.value.toLowerCase();
-    return x < y ? -1 : x > y ? 1 : 0;
+    return (x < y ? -1 : x > y ? 1 : 0) * sortOrder;
 }
 
 function sortMe(e, sortFunc) {
   var targetClass = "." + e.target.id + "Col";
+  if (e.target.src.includes("noArrow.png")) {
+    
+  } else if (e.target.src.includes("noArrow.png")) {
+
+  } else if (e.target.src.includes("noArrow.png")) {
+
+  }
   var data = [];
   document.querySelectorAll(targetClass).forEach(function(t) {
     data.push({value:t.innerText, rowNum:t.parentNode.id});
@@ -66,10 +76,10 @@ function toggleMe(e) {
     return child.className == "detailRow";
   })[0];
   if (e.target.src.includes("rightArrow.png")) {
-    e.target.src = "downArrow.png";
+    e.target.src = "content\\downArrow.png";
     detailRow.style.display = "";
   } else {
-    e.target.src = "rightArrow.png";
+    e.target.src = "content\\rightArrow.png";
     detailRow.style.display = "none";
   }
 }

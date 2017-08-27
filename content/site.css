@@ -142,16 +142,16 @@ nav a {
     display: grid; 
     grid-template-columns: 1fr;
     grid-template-rows:  repeat(-1, auto);
-    grid-gap: 5px;
+    /* grid-gap: 5px; */
 }
 .wrapper > div {
     border-color: red;
 }
 .row { 
     display: grid; 
-    grid-template-columns: 20px 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 40px 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: repeat(-1, auto);
-    grid-gap: 5px;
+    /* grid-gap: 5px; */
     grid-column: 1;
 }
 .detailRow {
