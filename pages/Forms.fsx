@@ -62,6 +62,12 @@ let getDrag drag =
   else
     ["ondragstart", "drag(event)"; "ondrop", "drop(event)"; "ondragover", "allowDrop(event)"; "draggable", "true"]
 
+let getFilter filter =
+  if filter = FilterNone then
+    Text ""
+  else
+    input ["type", "text"; "onkeyup", "filterMe(this)"]
+
 let grid =
   gridData
   |> Seq.indexed
@@ -74,7 +80,8 @@ let grid =
           let style = "grid-row: 1; grid-column: " + string(colNum + 1)
           if rowNum = 0 then
             let classValue = id + " " + id + "Header"
-            div ["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] (text name)
+            let sortImage = img ["class", "sortBtn"; "src", "content\\noArrow.png";]
+            div ["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] [Text name; sortImage; getFilter filterMode]
           else
             if name = "Detail Row" then
               div ["class", "detailRow"; "style", "display: none"] [dataValue]

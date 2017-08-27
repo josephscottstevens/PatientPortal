@@ -25,7 +25,7 @@ function filterMe(e) {
   var targetClass = "." + e.parentNode.id + "Col";
   var i = 0;
   document.querySelectorAll(targetClass).forEach(function(t) {
-    if (t.innerText.toLowerCase().includes(e.value.toLowerCase()) && i < 100) {
+    if (t.innerHTML.toLowerCase().includes(e.value.toLowerCase()) && i < 100) {
       t.parentNode.style.display = "";
       i++;
     } else {
@@ -55,7 +55,7 @@ function sortMe(e, sortFunc) {
   }
   var data = [];
   document.querySelectorAll(targetClass).forEach(function(t) {
-    data.push({value:t.innerText, rowNum:t.parentNode.id});
+    data.push({value:t.innerHTML, rowNum:t.parentNode.id});
   });
   var sortedData = data.sort(sortFunc);
   var element;
