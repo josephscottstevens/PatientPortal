@@ -81,7 +81,10 @@ let grid =
           if rowNum = 0 then
             let classValue = id + " " + id + "Header" + " Header"
             let sortImage = img ["class", "sortBtn"; "src", "content\\noArrow.png";]
-            div ["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] [Text name; sortImage; getFilter filterMode]
+            if name = "Detail Row" then
+              Text ""
+            else
+              div ["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] [Text name; sortImage; getFilter filterMode]
           else
             if name = "Detail Row" then
               div ["class", "detailRow"; "style", "display: none"] [dataValue]
