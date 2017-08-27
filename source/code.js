@@ -24,8 +24,9 @@ function drop(ev) {
 function filterMe(e) {
   var targetClass = "." + e.parentNode.id + "Col";
   var i = 0;
+  var filterText = e.value.toLowerCase();
   document.querySelectorAll(targetClass).forEach(function(t) {
-    if (t.innerHTML.toLowerCase().includes(e.value.toLowerCase()) && i < 100) {
+    if (t.innerHTML.toLowerCase().includes(filterText) && i < 100) {
       t.parentNode.style.display = "";
       i++;
     } else {
