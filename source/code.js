@@ -3,7 +3,7 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
-  ev.dataTransfer.setData("text", ev.target.id);
+  ev.dataTransfer.setData("text", ev.currentTarget.id);
 }
 
 function drop(ev) {
@@ -12,10 +12,9 @@ function drop(ev) {
   var sourceDiv = document.getElementById(data);
   var sourceCol = sourceDiv.style.gridColumnStart;
   var sourceClass = "." + sourceDiv.id;
-  var targetDiv = ev.target;
+  var targetDiv = ev.currentTarget;
   var targetCol = targetDiv.style.gridColumnStart;
-  // Bit of a gotcha here, if you give input an ID, this will break;
-  var targetClass = (targetDiv.id != "") ? "." + targetDiv.id : "." + targetDiv.parentNode.id;
+  var targetClass = "." + targetDiv.id 
 
   document.querySelectorAll(sourceClass).forEach(t => t.style.gridColumnStart = targetCol);
   document.querySelectorAll(targetClass).forEach(t => t.style.gridColumnStart = sourceCol);
@@ -75,8 +74,8 @@ function clearSort() {
 
 function sortMe(e, sortFunc) {
   if (e.target.nodeName === "INPUT") return;
-  var targetClass = "." + e.target.id + "Col";
-  var toggleBtn = e.target.querySelector(".sortBtn");
+  var targetClass = "." + e.currentTarget.id + "Col";
+  var toggleBtn = e.currentTarget.querySelector(".sortBtn");
   sortCol = e.target.id;
   if (toggleBtn.src.includes("noArrow.png")) {
     clearSort();
@@ -86,7 +85,7 @@ function sortMe(e, sortFunc) {
     clearSort();
     toggleBtn.src = "content\\upArrow.png";
     sortOrder = -1;
-  } else if (toggleBtn.src.includes("upArrow.png")) {
+  } else {
     clearSort();
     toggleBtn.src = "content\\noArrow.png";
     sortOrder = 0;
@@ -96,15 +95,15 @@ function sortMe(e, sortFunc) {
 }
 
 function toggleMe(e) {
-  var siblings = e.target.parentNode.parentNode.children;
+  var siblings = e.currentTarget.parentNode.parentNode.children;
   var detailRow = Array.prototype.filter.call(siblings, function(child){
     return child.className == "detailRow";
   })[0];
-  if (e.target.src.includes("rightArrow.png")) {
+  if (e.currentTarget.src.includes("rightArrow.png")) {
     e.target.src = "content\\downArrow.png";
     detailRow.style.display = "";
   } else {
-    e.target.src = "content\\rightArrow.png";
+    e.currentTarget.src = "content\\rightArrow.png";
     detailRow.style.display = "none";
   }
 }

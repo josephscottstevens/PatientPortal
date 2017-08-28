@@ -37,7 +37,6 @@ let gridData =
   DataAccess.getUsers
   |> Seq.where (fun t -> t.HomePhone.IsSome)
   |> Seq.where (fun t -> t.HomeCity.IsSome)
-  //|> Seq.take 10
   |> Seq.map (fun t -> 
       [
         "Pre",        SortNone    , FilterNone    , DragNone,  toggleNode
@@ -54,7 +53,7 @@ let getSortAttr sort =
   if sort = SortNone then
     "", ""
   else
-    "onclick", "sortMe(event, SortByString)"
+    "onclick", "sortMe(event, )" + string sort
 
 let getDrag drag =
   if drag = DragNone then
@@ -84,7 +83,7 @@ let grid =
             if name = "Detail Row" then
               Text ""
             else
-              div ["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] [Text name; sortImage; getFilter filterMode id]
+              div (["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] @ getDrag dragMode ) [Text name; sortImage; getFilter filterMode id]
           else
             if name = "Detail Row" then
               div ["class", "detailRow"; "style", "display: none"] [dataValue]
