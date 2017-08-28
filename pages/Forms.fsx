@@ -99,9 +99,9 @@ let grid =
       else
         ";display: none;"
     if rowNum = 0 then
-      div ["class", "row"; "style", rowStyle;] nodes
+      div ["class", "headerRow"; "style", rowStyle;] nodes
     else
-      div ["class", "row"; "id", "row" + string rowNum; "style", rowStyle+showOnly] nodes)
+      div ["class", "row"; "id", string rowNum; "style", rowStyle+showOnly] nodes)
   |> Seq.toList
 
 let Home = 

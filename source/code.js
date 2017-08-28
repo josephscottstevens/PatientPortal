@@ -36,13 +36,15 @@ function filterMe(e) {
 }
 
 var sortOrder = 0;
+var sortCol = 0;
 function SortByNumber(a, b) {
   return (a.value - b.value) * sortOrder;
 }
 
 function SortByString(a, b) {
-	var x = a.value.toLowerCase(), y = b.value.toLowerCase();
-    return (x < y ? -1 : x > y ? 1 : 0) * sortOrder;
+  var x = a.columns[sortCol].innerHTML.toLowerCase();
+  var y = b.columns[sortCol].innerHTML.toLowerCase();
+  return (x < y ? -1 : x > y ? 1 : 0) * sortOrder;
 }
 
 function clearSort() {
@@ -53,6 +55,7 @@ function sortMe(e, sortFunc) {
   if (e.target.nodeName === "INPUT") return;
   var targetClass = "." + e.target.id + "Col";
   var toggleBtn = e.target.querySelector(".sortBtn");
+  sortCol = 2;
   if (toggleBtn.src.includes("noArrow.png")) {
     clearSort();
     toggleBtn.src = "content\\downArrow.png";
@@ -66,14 +69,10 @@ function sortMe(e, sortFunc) {
     toggleBtn.src = "content\\noArrow.png";
     sortOrder = 0;
   }
-  var data = [];
-  document.querySelectorAll(targetClass).forEach(function(t) {
-    data.push({value:t.innerHTML, rowNum:t.parentNode.id});
-  });
   var sortedData = data.sort(sortFunc);
   var element;
   sortedData.forEach(function (val, idx) {
-    element = document.getElementById(val.rowNum);
+    element = document.getElementById(val.rowId);
     if (idx < 100) {
       element.style.display = "";
     } else {
@@ -97,11 +96,17 @@ function toggleMe(e) {
   }
 }
 
+var data;
+
 function init()
 {
-    websocket = new WebSocket("ws://"+window.location.host+"/websocket");
-    websocket.onmessage = function(evt) {
-      location.reload();
-    };
+  data = [];
+  document.querySelectorAll(".row").forEach(function(t) {
+    data.push({rowId:t.id, filterShow:true, displayOrder:t.id, columns:t.children});
+  });
+  websocket = new WebSocket("ws://"+window.location.host+"/websocket");
+  websocket.onmessage = function(evt) {
+    //location.reload();
+  };
 }
 window.addEventListener("load", init, false);
