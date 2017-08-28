@@ -25,12 +25,32 @@ function filterMe(e) {
   var targetClass = "." + e.parentNode.id + "Col";
   var i = 0;
   var filterText = e.value.toLowerCase();
-  document.querySelectorAll(targetClass).forEach(function(t) {
-    if (t.innerHTML.toLowerCase().includes(filterText) && i < 100) {
-      t.parentNode.style.display = "";
+  var filterValues = [...document.querySelectorAll(".filterInput")].map(fv => fv.value.toLowerCase());
+  data.forEach(function (t, idx) {
+    var dataValues = t.columns.map(t => t.innerHTML.toLowerCase());
+    //var dataNames = t.columns.map(t => t.getAttribute("name"));
+    var show = true;
+    dataValues.forEach(function (dv, idxDv) {
+      if (dv.includes(filterValues[idxDv]) == false) {
+        show = false;
+      }
+    });
+    t.filterShow = show;
+  });
+  ShowFirst100();
+}
+
+function ShowFirst100() {
+  var i = 0;
+  data.forEach(function (t, idx) {
+    var row = document.getElementById(t.rowId);
+    if (t.filterShow && i < 100) {
+      row.style.display = "";
+      row.style.gridRow = i+2;
       i++;
     } else {
-      t.parentNode.style.display = "none";
+      row.style.display = "none";
+      row.style.gridRow = 1000;
     }
   });
 }
@@ -38,12 +58,14 @@ function filterMe(e) {
 var sortOrder = 0;
 var sortCol = "";
 function SortByNumber(a, b) {
-  return (a.value - b.value) * sortOrder;
+  var x = a.columns[sortCol].innerHTML;
+  var y = b.columns[sortCol].innerHTML;
+  return (x - y) * sortOrder;
 }
 
 function SortByString(a, b) {
-  var x = a.columns[sortCol].innerHTML.toLowerCase();
-  var y = b.columns[sortCol].innerHTML.toLowerCase();
+  var x = a.columns.filter(t => t.getAttribute("name") == sortCol)[0].innerHTML.toLowerCase();
+  var y = b.columns.filter(t => t.getAttribute("name") == sortCol)[0].innerHTML.toLowerCase();
   return (x < y ? -1 : x > y ? 1 : 0) * sortOrder;
 }
 
@@ -69,17 +91,8 @@ function sortMe(e, sortFunc) {
     toggleBtn.src = "content\\noArrow.png";
     sortOrder = 0;
   }
-  var sortedData = data.sort(sortFunc);
-  var element;
-  sortedData.forEach(function (val, idx) {
-    element = document.getElementById(val.rowId);
-    if (idx < 100) {
-      element.style.display = "";
-    } else {
-      element.style.display = "none";
-    }
-    element.style.gridRow = idx+2;
-  });
+  data.sort(sortFunc);
+  ShowFirst100();
 }
 
 function toggleMe(e) {
@@ -102,8 +115,12 @@ function init()
 {
   data = [];
   document.querySelectorAll(".row").forEach(function(t) {
-    data.push({rowId:t.id, filterShow:true, displayOrder:t.id, columns:t.children});
+    var cols = [...t.children];
+    cols.pop();     // Remove Pre Column
+    cols.shift(); // Remove Detail Column
+    data.push({rowId:t.id, filterShow:true, displayOrder:t.id, columns:cols});
   });
+  data.pop(); // Remove header row
   websocket = new WebSocket("ws://"+window.location.host+"/websocket");
   websocket.onmessage = function(evt) {
     //location.reload();

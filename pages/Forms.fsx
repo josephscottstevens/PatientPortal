@@ -62,11 +62,11 @@ let getDrag drag =
   else
     ["ondragstart", "drag(event)"; "ondrop", "drop(event)"; "ondragover", "allowDrop(event)"; "draggable", "true"]
 
-let getFilter filter =
+let getFilter filter colId =
   if filter = FilterNone then
     Text ""
   else
-    input ["type", "text"; "onkeyup", "filterMe(this)"]
+    input ["type", "text"; "onkeyup", "filterMe(this)"; "id", colId + "Input"; "class", "filterInput"]
 
 let grid =
   gridData
@@ -84,7 +84,7 @@ let grid =
             if name = "Detail Row" then
               Text ""
             else
-              div ["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] [Text name; sortImage; getFilter filterMode]
+              div ["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] [Text name; sortImage; getFilter filterMode id]
           else
             if name = "Detail Row" then
               div ["class", "detailRow"; "style", "display: none"] [dataValue]
