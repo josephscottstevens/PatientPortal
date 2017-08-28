@@ -90,7 +90,7 @@ let grid =
               div ["class", "detailRow"; "style", "display: none"] [dataValue]
             else
               let classValue = id + " " + id + "Col"
-              div ["class", classValue; "style", style] [dataValue])
+              div ["class", classValue; "name", id; "style", style] [dataValue])
       |> Seq.toList        
     let rowStyle = "grid-row: " + string(rowNum + 1)
     let showOnly =

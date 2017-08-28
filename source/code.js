@@ -36,7 +36,7 @@ function filterMe(e) {
 }
 
 var sortOrder = 0;
-var sortCol = 0;
+var sortCol = "";
 function SortByNumber(a, b) {
   return (a.value - b.value) * sortOrder;
 }
@@ -55,7 +55,7 @@ function sortMe(e, sortFunc) {
   if (e.target.nodeName === "INPUT") return;
   var targetClass = "." + e.target.id + "Col";
   var toggleBtn = e.target.querySelector(".sortBtn");
-  sortCol = 2;
+  sortCol = e.target.id;
   if (toggleBtn.src.includes("noArrow.png")) {
     clearSort();
     toggleBtn.src = "content\\downArrow.png";
