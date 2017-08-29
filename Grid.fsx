@@ -19,6 +19,7 @@ let getColumns (columnInfoSeq: ColumnInfo seq) =
   columnInfoSeq
   |> Seq.indexed
   |> Seq.map (fun (i, col) -> getId col, i + 1, col):Column seq
+  
 let getSortAttr sort =
   if sort = SortNone then
     "", ""

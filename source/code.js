@@ -27,7 +27,6 @@ function filterMe(e) {
   var filterValues = [...document.querySelectorAll(".filterInput")].map(fv => fv.value.toLowerCase());
   data.forEach(function (t, idx) {
     var dataValues = t.columns.map(t => t.innerHTML.toLowerCase());
-    //var dataNames = t.columns.map(t => t.getAttribute("name"));
     var show = true;
     dataValues.forEach(function (dv, idxDv) {
       if (dv.includes(filterValues[idxDv]) == false) {
@@ -73,7 +72,7 @@ function clearSort() {
 }
 
 function sortMe(e, sortFunc) {
-  if (e.target.nodeName === "INPUT") return;
+  if (e.target.nodeName === "INPUT") return; // Prevent sorting grid if target is input
   var targetClass = "." + e.currentTarget.id + "Col";
   var toggleBtn = e.currentTarget.querySelector(".sortBtn");
   sortCol = e.target.id;
