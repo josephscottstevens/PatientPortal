@@ -111,7 +111,19 @@ let openBrowser() =
 
 let watch() =
     // Watch for changes & reload when files change
-    use watcher = !! (__SOURCE_DIRECTORY__ + "\\*.*") |> WatchChanges (fun _ -> reloadAppServer())
+    use watcher = 
+        !! (__SOURCE_DIRECTORY__ + "\\*.*")
+        -- "*.git"
+        -- "*.notes"
+        |> WatchChanges (fun t -> 
+            let x = Seq.tryHead t
+            if Seq.length t > 1 then
+                traceImportant("!!Multiple files changed!!" + " at :" + System.DateTime.Now.ToShortTimeString())
+            if x.IsSome then
+                traceImportant ("File Changed: " + x.Value.Name + " at :" + System.DateTime.Now.ToShortTimeString())
+            else
+                traceImportant ("No file changed" + " at :" + System.DateTime.Now.ToShortTimeString())
+            reloadAppServer())
     traceImportant "Waiting for app.fsx edits. Press any key to stop."
     System.Console.ReadLine() |> ignore
 
