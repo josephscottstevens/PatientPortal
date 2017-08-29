@@ -53,18 +53,18 @@ function ShowFirst100() {
   });
 }
 
-var sortOrder = 0;
-var sortCol = "";
 function SortByNumber(a, b) {
   var x = a.columns[sortCol].innerHTML;
   var y = b.columns[sortCol].innerHTML;
   return (x - y) * sortOrder;
 }
 
-function SortByString(a, b) {
-  var x = a.columns.filter(t => t.getAttribute("name") == sortCol)[0].innerHTML.toLowerCase();
-  var y = b.columns.filter(t => t.getAttribute("name") == sortCol)[0].innerHTML.toLowerCase();
-  return (x < y ? -1 : x > y ? 1 : 0) * sortOrder;
+function SortByString(sortCol, sortOrder) {
+  return function(a, b) {
+    var x = a.columns.filter(t => t.classList.contains(sortCol))[0].innerHTML.toLowerCase();
+    var y = b.columns.filter(t => t.classList.contains(sortCol))[0].innerHTML.toLowerCase();
+    return (x < y ? -1 : x > y ? 1 : 0) * sortOrder;
+  };
 }
 
 function clearSort() {
@@ -89,7 +89,7 @@ function sortMe(e, sortFunc) {
     toggleBtn.src = "content\\noArrow.png";
     sortOrder = 0;
   }
-  data.sort(sortFunc);
+  data.sort(sortFunc(e.currentTarget.id, sortOrder));
   ShowFirst100();
 }
 
