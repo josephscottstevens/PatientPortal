@@ -121,7 +121,7 @@ function init()
   data.pop(); // Remove header row
   websocket = new WebSocket("ws://"+window.location.host+"/websocket");
   websocket.onmessage = function(evt) {
-    //location.reload();
+    location.reload();
   };
 }
 window.addEventListener("load", init, false);

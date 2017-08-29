@@ -20,6 +20,7 @@ let gridData =
       [
         "Pre",        SortNone    , FilterNone    , DragNone,  toggleNode
         "Name",       SortByString, FilterByString, Draggable, str t.NameComputed
+        "Gender",     SortByString, FilterByString, Draggable, str t.Gender
         "Home Phone", SortByString, FilterByString, Draggable, str t.HomePhone
         "Home City",  SortByString, FilterByString, Draggable, str t.HomeCity
         "Home State", SortByString, FilterByString, Draggable, str t.HomeState

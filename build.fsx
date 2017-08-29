@@ -113,8 +113,10 @@ let watch() =
     // Watch for changes & reload when files change
     use watcher = 
         !! (__SOURCE_DIRECTORY__ + "\\*.*")
-        -- "*.git"
-        -- "*.notes"
+        -- "\\*.git"
+        -- "\\*.notes"
+        -- "\\*.js"  // I use chrome to hot-reload js files
+        -- "\\*.css" // I use chrome to hot-reload css files
         |> WatchChanges (fun t -> 
             let x = Seq.tryHead t
             if Seq.length t > 1 then
