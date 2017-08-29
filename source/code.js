@@ -38,19 +38,37 @@ function filterMe(e) {
   ShowRowsByRowCount();
 }
 
+var currentPage = 1;
+
+function GoToPage(page) {
+  currentPage = page;
+  ShowRowsByRowCount();
+}
+
 function ShowRowsByRowCount() {
   var i = 0;
+  var showI = 0;
+  var rowsPerPage = [...document.querySelectorAll(".row")].filter(t => t.style.display != "none").length;
+  var totalRows = document.querySelectorAll(".row").length;
+  
   data.forEach(function (t, idx) {
     var row = document.getElementById(t.rowId);
-    if (t.filterShow && i < document.getElementById("grid").getAttribute("data-row-count")) {
-      row.style.display = "";
-      row.style.gridRow = i+2;
+    if (t.filterShow) {
+      if (i < rowsPerPage * currentPage && i >= rowsPerPage * (currentPage - 1)) {
+        row.style.display = "";
+        row.style.gridRow = showI+2;  
+        showI++;
+      } else {
+        row.style.display = "none";
+        row.style.gridRow = 1000;  
+      }
       i++;
     } else {
       row.style.display = "none";
       row.style.gridRow = 1000;
     }
   });
+  document.getElementById("footer").style.gridRowStart = rowsPerPage * currentPage + 2;
 }
 
 function SortByNumber(a, b) {

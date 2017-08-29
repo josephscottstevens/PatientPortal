@@ -30,4 +30,4 @@ let gridData =
       |> getColumns)
 
 let Home = 
-  div ["class", "wrapper"] [grid gridData 10]
+  div ["class", "wrapper"] (grid gridData 10)
