@@ -113,7 +113,7 @@ let watch() =
     // Watch for changes & reload when files change
     use watcher = 
         !! (__SOURCE_DIRECTORY__ + "\\*.*")
-        -- "\\*.git"
+        -- "*.git"
         -- "\\*.notes"
         -- "\\*.js"  // I use chrome to hot-reload js files
         -- "\\*.css" // I use chrome to hot-reload css files

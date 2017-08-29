@@ -1,0 +1,27 @@
+paging initially looks like
+|<  <  1 2 3 4 5 6 7 8 ... > >|				1 of 90 pages (17876 items)
+(disable |< and <)
+
+
+in the middle
+|< < 20 21 22 23 24 25 26 27 28 > >|		20 of 90 pages (17876 items)
+
+
+at the end
+|< < 82 83 84 85 86 87 88 89 90 > >|		20 of 90 pages (17876 items)
+(disable >| and >)
+
+----------------------------------
+
+change from text string header to a nodeHeader
+fix css being hard coded to work with rows... really ought to be apart of grid builder
+stop using name attribute
+test a varying number of columns
+test different column types
+test number columns
+see if I can remove any more "unexpected javascript behavior"
+First row of data set is being killed
+
+----------------------------------------------------
+ways things are found (besides id)
+name -> sort by string

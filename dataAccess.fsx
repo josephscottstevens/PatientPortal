@@ -82,3 +82,11 @@ let isFacilityPortalEnabled userId =
         isEnabledOption.Value
     else
         false
+
+
+let bigQuery =
+    query {
+        for user in ctx.Dbo.AspNetUsers do
+        for ptn in user.``ptn.Patients by Id`` do
+        select (user, ptn)
+    }

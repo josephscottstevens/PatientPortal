@@ -35,14 +35,14 @@ function filterMe(e) {
     });
     t.filterShow = show;
   });
-  ShowFirst100();
+  ShowRowsByRowCount();
 }
 
-function ShowFirst100() {
+function ShowRowsByRowCount() {
   var i = 0;
   data.forEach(function (t, idx) {
     var row = document.getElementById(t.rowId);
-    if (t.filterShow && i < 100) {
+    if (t.filterShow && i < document.getElementById("grid").getAttribute("data-row-count")) {
       row.style.display = "";
       row.style.gridRow = i+2;
       i++;
@@ -90,7 +90,7 @@ function sortMe(e, sortFunc) {
     sortOrder = 0;
   }
   data.sort(sortFunc(e.currentTarget.id, sortOrder));
-  ShowFirst100();
+  ShowRowsByRowCount();
 }
 
 function toggleMe(e) {

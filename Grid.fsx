@@ -38,38 +38,39 @@ let getFilter filter colId =
   else
     input ["type", "text"; "onkeyup", "filterMe(this)"; "id", colId + "Input"; "class", "filterInput"]
 
-let grid gridData =
-  gridData
-  |> Seq.indexed
-  |> Seq.map(fun (rowNum, columnSeq) ->
-    let nodes =
-      columnSeq
-      |> Seq.indexed
-      |> Seq.map (fun (colNum, t) -> 
-          let id, num, (name, sortMode, filterMode, dragMode, dataValue) = t
-          let style = "grid-row: 1; grid-column: " + string(colNum + 1)
-          if rowNum = 0 then
-            let classValue = id + " " + id + "Header" + " Header"
-            let sortImage = img ["class", "sortBtn"; "src", "content\\noArrow.png";]
-            if name = "Detail Row" then
-              Text ""
+let grid gridData rowCount =
+  div ["id", "grid"; "data-row-count", string rowCount]
+    (gridData
+    |> Seq.indexed
+    |> Seq.map(fun (rowNum, columnSeq) ->
+      let nodes =
+        columnSeq
+        |> Seq.indexed
+        |> Seq.map (fun (colNum, t) -> 
+            let id, num, (name, sortMode, filterMode, dragMode, dataValue) = t
+            let style = "grid-row: 1; grid-column: " + string(colNum + 1)
+            if rowNum = 0 then
+              let classValue = id + " " + id + "Header" + " Header"
+              let sortImage = img ["class", "sortBtn"; "src", "content\\noArrow.png";]
+              if name = "Detail Row" then
+                Text ""
+              else
+                div (["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] @ getDrag dragMode ) [Text name; sortImage; getFilter filterMode id]
             else
-              div (["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] @ getDrag dragMode ) [Text name; sortImage; getFilter filterMode id]
-          else
-            if name = "Detail Row" then
-              div ["class", "detailRow"; "style", "display: none"] [dataValue]
-            else
-              let classValue = id + " " + id + "Col"
-              div ["class", classValue; "name", id; "style", style] [dataValue])
-      |> Seq.toList        
-    let rowStyle = "grid-row: " + string(rowNum + 1)
-    let showOnly =
-      if rowNum < 100 then
-        ""
+              if name = "Detail Row" then
+                div ["class", "detailRow"; "style", "display: none"] [dataValue]
+              else
+                let classValue = id + " " + id + "Col"
+                div ["class", classValue; "name", id; "style", style] [dataValue])
+        |> Seq.toList        
+      let rowStyle = "grid-row: " + string(rowNum + 1)
+      let showOnly =
+        if rowNum < rowCount then
+          ""
+        else
+          ";display: none;"
+      if rowNum = 0 then
+        div ["class", "headerRow"; "style", rowStyle;] nodes
       else
-        ";display: none;"
-    if rowNum = 0 then
-      div ["class", "headerRow"; "style", rowStyle;] nodes
-    else
-      div ["class", "row"; "id", string rowNum; "style", rowStyle+showOnly] nodes)
-  |> Seq.toList
+        div ["class", "row"; "id", string rowNum; "style", rowStyle+showOnly] nodes)
+    |> Seq.toList)
