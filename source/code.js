@@ -39,7 +39,6 @@ function filterMe(e) {
 }
 
 var currentPage = 1;
-
 function GoToPage(page) {
   currentPage = page;
   ShowRowsByRowCount();
@@ -48,7 +47,7 @@ function GoToPage(page) {
 function ShowRowsByRowCount() {
   var visibleRows = [...document.querySelectorAll(".row")].filter(t => t.style.display != "none");
   var visibleData = data.filter( t => t.filterShow);
-  var rowsPerPage = visibleRows.length;
+  var rowsPerPage = document.getElementById("footer").getAttribute("data-rows-per-page");
   var begin = (currentPage - 1 ) * rowsPerPage;
   var end = begin + rowsPerPage;
   var rowsToShow = visibleData.slice(begin, end);

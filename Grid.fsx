@@ -21,24 +21,22 @@ let getColumns (columnInfoSeq: ColumnInfo seq) =
   |> Seq.map (fun (i, col) -> getId col, i + 1, col):Column seq
   
 let getSortAttr sort =
-  if sort = SortNone then
-    "", ""
-  else
-    "onclick", "sortMe(event, " + string sort + ")"
+  match sort with
+  | SortNone -> "", ""
+  | SortByString
+  | SortByNumber -> "onclick", "sortMe(event, " + string sort + ")"
 
 let getDrag drag =
-  if drag = DragNone then
-    ["", ""]
-  else
-    ["ondragstart", "drag(event)"; "ondrop", "drop(event)"; "ondragover", "allowDrop(event)"; "draggable", "true"]
+  match drag with
+  | DragNone -> ["", ""]
+  | Draggable -> ["ondragstart", "drag(event)"; "ondrop", "drop(event)"; "ondragover", "allowDrop(event)"; "draggable", "true"]
 
 let getFilter filter colId =
-  if filter = FilterNone then
-    Text ""
-  else
-    input ["type", "text"; "onkeyup", "filterMe(this)"; "id", colId + "Input"; "class", "filterInput"]
+  match filter with 
+  | FilterNone -> Text ""
+  | FilterByString -> input ["type", "text"; "onkeyup", "filterMe(this)"; "id", colId + "Input"; "class", "filterInput"]
 
-let grid gridData rowCount =
+let grid gridData rowsPerPage =
   let gridComputed = 
     gridData
       |> Seq.indexed
@@ -65,7 +63,7 @@ let grid gridData rowCount =
           |> Seq.toList        
         let rowStyle = "grid-row: " + string(rowNum + 1)
         let showOnly =
-          if rowNum <= rowCount then
+          if rowNum <= rowsPerPage then
             ""
           else
             ";display: none;"
@@ -75,12 +73,12 @@ let grid gridData rowCount =
           div ["class", "row"; "id", string rowNum; "style", rowStyle+showOnly] nodes)
       |> Seq.toList
   let footerRow = 
-    let footerStyle = "grid-row: " + string (rowCount+2) + "; grid-column: 1 / -1;"
+    let footerStyle = "grid-row: " + string (rowsPerPage+2) + "; grid-column: 1 / -1;"
     let totalRows = Seq.length gridData
-    let secondLast = int (float totalRows / float rowCount) - 1
-    let last = int (float totalRows / float rowCount)
-    
-    div ["id", "footer"; "class", "footerRow"; "style", footerStyle] [
+    let secondLast = int (float totalRows / float rowsPerPage) - 1
+    let last = int (float totalRows / float rowsPerPage)
+
+    div ["id", "footer"; "class", "footerRow"; "style", footerStyle; "data-rows-per-page", string rowsPerPage] [
       a "#" ["style", "margin-left: 4px; text-decoration: none; color: black;"; "onclick", "GoToPage(1)"] (text "1")
       a "#" ["style", "margin-left: 4px"; "onclick", "GoToPage(2)"] (text "2")
       a "#" ["style", "margin-left: 4px"] (text "...")
