@@ -46,27 +46,18 @@ function GoToPage(page) {
 }
 
 function ShowRowsByRowCount() {
-  var i = 0;
-  var showI = 0;
-  var rowsPerPage = [...document.querySelectorAll(".row")].filter(t => t.style.display != "none").length;
-  var totalRows = document.querySelectorAll(".row").length;
+  var visibleRows = [...document.querySelectorAll(".row")].filter(t => t.style.display != "none");
+  var visibleData = data.filter( t => t.filterShow);
+  var rowsPerPage = visibleRows.length;
+  var begin = (currentPage - 1 ) * rowsPerPage;
+  var end = begin + rowsPerPage;
+  var rowsToShow = visibleData.slice(begin, end);
+  visibleRows.forEach(t => t.style.display = "none");
   
-  data.forEach(function (t, idx) {
+  rowsToShow.forEach(function (t, idx) {
     var row = document.getElementById(t.rowId);
-    if (t.filterShow) {
-      if (i < rowsPerPage * currentPage && i >= rowsPerPage * (currentPage - 1)) {
-        row.style.display = "";
-        row.style.gridRow = showI+2;  
-        showI++;
-      } else {
-        row.style.display = "none";
-        row.style.gridRow = 1000;  
-      }
-      i++;
-    } else {
-      row.style.display = "none";
-      row.style.gridRow = 1000;
-    }
+    row.style.display = "";
+    row.style.gridRow = idx+2;  
   });
   document.getElementById("footer").style.gridRowStart = rowsPerPage * currentPage + 2;
 }
