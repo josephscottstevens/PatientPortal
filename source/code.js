@@ -1,3 +1,7 @@
+var rowsPerPage;
+var data;
+var currentPage = 1;
+
 function allowDrop(ev) {
   ev.preventDefault();
 }
@@ -38,21 +42,84 @@ function filterMe(e) {
   ShowRowsByRowCount();
 }
 
-var currentPage = 1;
 function GoToPage(page) {
-  currentPage = page;
+  var nextPage;
+  if (parseInt(page)) {
+    nextPage = parseInt(page);
+  } else {
+    switch (page) {
+      case 'pageFirst': 
+        nextPage = 1;
+        break;
+      case 'pagePrevious': 
+        nextPage = currentPage - 1;
+        break;
+      case 'pageBlockPrevious': 
+        nextPage = (Math.floor((currentPage - rowsPerPage + 1)/10)*10);
+        break;
+      case 'pageBlockNext': 
+        nextPage = (Math.floor((currentPage + rowsPerPage + 1)/10)*10);
+        break;
+      case 'pageNext': 
+        nextPage = currentPage + 1;
+        break;
+      case 'pageLast': 
+        nextPage = Math.floor(data.filter( t => t.filterShow).length / rowsPerPage)-1;
+        break;
+    }
+  }
+  UpdatePagingFooter(nextPage);
   ShowRowsByRowCount();
+}
+
+function UpdatePagingFooter(nextPage) {
+  document.getElementById("page" + currentPage).classList.remove("pagingItemActive");
+  document.getElementById("page" + nextPage).classList.add("pagingItemActive");
+  var currentPageBlock = (Math.floor((currentPage / 10))+1)*10;
+  var nextPageBlock = (Math.floor((nextPage / 10))+1)*10;
+  if (currentPageBlock !== nextPageBlock) {
+    if (currentPageBlock > nextPageBlock) {
+      [currentPageBlock, nextPageBlock] = [nextPageBlock, currentPageBlock];
+      nextPageBlock -= 10;
+      currentPageBlock -= 9;
+    } 
+    document.querySelectorAll(".pagingItem").forEach(t => t.classList.add("pagingHide"));
+    for (var i = currentPageBlock; i < nextPageBlock; i++) {
+      document.getElementById("page" + i).classList.remove("pagingHide");
+    }
+  }
+  currentPage = nextPage;
+  var renderablePages = data.filter( t => t.filterShow).length;
+  if (currentPage <= rowsPerPage) {
+    document.getElementById("pageFirst").classList.add("pagingItemDisabled");
+    document.getElementById("pagePrevious").classList.add("pagingItemDisabled");
+    document.getElementById("pageBlockPrevious").classList.add("pagingHide");
+  } else {
+    document.getElementById("pageFirst").classList.remove("pagingItemDisabled");
+    document.getElementById("pagePrevious").classList.remove("pagingItemDisabled");
+    document.getElementById("pageBlockPrevious").classList.remove("pagingHide");
+  }
+
+  if (currentPage >= renderablePages - rowsPerPage) {
+    document.getElementById("pageBlockNext").classList.add("pagingHide");
+    document.getElementById("pageNext").classList.add("pagingItemDisabled");
+    document.getElementById("pageBlockPrevious").classList.add("pagingItemDisabled");
+  } else {
+    document.getElementById("pageBlockNext").classList.remove("pagingHide");
+    document.getElementById("pageNext").classList.remove("pagingItemDisabled");
+    document.getElementById("pageBlockPrevious").classList.remove("pagingItemDisabled");
+  }
 }
 
 function ShowRowsByRowCount() {
   var visibleRows = [...document.querySelectorAll(".row")].filter(t => t.style.display != "none");
   var visibleData = data.filter( t => t.filterShow);
-  var rowsPerPage = document.getElementById("footer").getAttribute("data-rows-per-page");
+  
   var begin = (currentPage - 1 ) * rowsPerPage;
   var end = begin + rowsPerPage;
   var rowsToShow = visibleData.slice(begin, end);
   visibleRows.forEach(t => t.style.display = "none");
-  
+
   rowsToShow.forEach(function (t, idx) {
     var row = document.getElementById(t.rowId);
     row.style.display = "";
@@ -115,8 +182,6 @@ function toggleMe(e) {
   }
 }
 
-var data;
-
 function init()
 {
   data = [];
@@ -127,6 +192,7 @@ function init()
     data.push({rowId:t.id, filterShow:true, displayOrder:t.id, columns:cols});
   });
   data.pop(); // Remove header row
+  rowsPerPage = parseInt(document.getElementById("footer").getAttribute("data-rows-per-page"))
   websocket = new WebSocket("ws://"+window.location.host+"/websocket");
   websocket.onmessage = function(evt) {
     location.reload();

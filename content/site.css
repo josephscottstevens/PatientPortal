@@ -163,8 +163,32 @@ nav a {
 }
 .toggleBtn {
     cursor: pointer;
-    padding: 8px;
+    padding-left: 5px;
 }
 .Header {
     cursor: pointer;
+}
+.row {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.pagingControl,
+.pagingItem {
+    background-color: lightgray;
+    margin: 5px;
+}
+
+.pagingItemDisabled {
+   pointer-events: none;
+   cursor: default;
+}
+
+.pagingHide {
+    display: none;
+}
+
+.pagingItemActive {
+    color: red;
+    background-color:blue;
 }
