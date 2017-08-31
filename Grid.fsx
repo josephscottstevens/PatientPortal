@@ -36,22 +36,22 @@ let getFilter filter colId =
   | FilterNone -> Text ""
   | FilterByString -> input ["type", "text"; "onkeyup", "filterMe(this)"; "id", colId + "Input"; "class", "filterInput"]
 
-let footerRow rowsPerPage totalRows = 
+let footerRow pagesPerBlock rowsPerPage totalRows = 
   let footerStyle = "grid-row: " + string (rowsPerPage+2) + "; grid-column: 1 / -1;"
-  let last = int (float totalRows / float rowsPerPage)
+  let last = int (float totalRows / float pagesPerBlock)
 
   let pagination =
     [1..last]
     |> List.map (fun i ->
       let pagingClass = 
-        if i <= rowsPerPage then
+        if i <= pagesPerBlock+1 then
           if i = 1 then
             "pagingItem pagingItemActive"
           else
             "pagingItem"
         else
           "pagingItem pagingHide"
-      a "#" ["id", "page" + (string i); "class", pagingClass; "onclick", "GoToPage('" + string i + "')"] (text (string i)))
+      a "#" ["id", "page" + (string i); "class", pagingClass; "onclick", "GoToPage('" + string(i - 1) + "')"] (text (string i)))
 
   let paginationHeader =
     [
@@ -65,7 +65,7 @@ let footerRow rowsPerPage totalRows =
       a "#" ["id", "pageNext"; "class", "pagingControl"; "onclick", "GoToPage('pageNext')"] (text ">")
       a "#" ["id", "pageLast"; "class", "pagingControl"; "onclick", "GoToPage('pageLast')"] (text ">|")
     ]
-  div ["id", "footer"; "class", "footerRow"; "style", footerStyle; "data-rows-per-page", string rowsPerPage]
+  div ["id", "footer"; "class", "footerRow"; "style", footerStyle]
     (paginationHeader @ pagination @ paginationFooter)
 let grid gridData rowsPerPage =
   let gridComputed = 
@@ -94,7 +94,7 @@ let grid gridData rowsPerPage =
           |> Seq.toList        
         let rowStyle = "grid-row: " + string(rowNum + 1)
         let showOnly =
-          if rowNum < rowsPerPage then
+          if rowNum <= rowsPerPage then
             ""
           else
             ";display: none;"
@@ -103,4 +103,4 @@ let grid gridData rowsPerPage =
         else
           div ["class", "row"; "id", string rowNum; "style", rowStyle+showOnly] nodes)
       |> Seq.toList
-  gridComputed @ [footerRow 9 (Seq.length gridData)]
+  gridComputed @ [footerRow 9 10 (Seq.length gridData)]
