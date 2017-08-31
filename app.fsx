@@ -24,7 +24,7 @@ let app =
       path "/logout"      >=> OK (basePage "/" Logout.Home)
       requireAuth (
         choose [
-          path "/careplan"    >=> OK (basePage "/careplan" CarePlan.Home)
+          // path "/careplan"    >=> OK (basePage "/careplan" CarePlan.Home)
           path "/feedback"    >=> OK (basePage "/feedback" Feedback.Home)
           path "/medications" >=> OK (basePage "/medications" Medications.Home)
           path "/forms"       >=> OK (basePage "/forms" Forms.Home)

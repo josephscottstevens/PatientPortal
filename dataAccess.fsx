@@ -61,27 +61,27 @@ let getProxyUserIdByEmail email =
     | Some t -> Some patient.Value.UserId
     | None -> None
 
-let getCarePlans patientId =
-    query {
-        for p in ctx.Cls.CarePlanFiles do
-        where (p.PatientId = patientId)
-        select p
-    }
+// let getCarePlans patientId =
+//     query {
+//         for p in ctx.Cls.CarePlanFiles do
+//         where (p.PatientId = patientId)
+//         select p
+//     }
 
-let isFacilityPortalEnabled userId =
-    let isEnabledOption =
-        query {
-            for hcoUser in ctx.Hco.HcoUsers do
-            join hco in ctx.Hco.Hcos on (hcoUser.HcoId = hco.Id)
-            where (hcoUser.UserId.IsSome)
-            where (hcoUser.UserId.Value = userId)
-            select hco.PortalEnabled
-        }
-        |> Seq.tryHead
-    if isEnabledOption.IsSome then
-        isEnabledOption.Value
-    else
-        false
+// let isFacilityPortalEnabled userId =
+//     let isEnabledOption =
+//         query {
+//             for hcoUser in ctx.Hco.HcoUsers do
+//             join hco in ctx.Hco.Hcos on (hcoUser.HcoId = hco.Id)
+//             where (hcoUser.UserId.IsSome)
+//             where (hcoUser.UserId.Value = userId)
+//             select hco.PortalEnabled
+//         }
+//         |> Seq.tryHead
+//     if isEnabledOption.IsSome then
+//         isEnabledOption.Value
+//     else
+        // false
 
 
 let bigQuery =

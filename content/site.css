@@ -184,10 +184,6 @@ nav a {
    cursor: default;
 }
 
-.pagingHide {
-    display: none;
-}
-
 .pagingItemActive {
     color: red;
     background-color:blue;

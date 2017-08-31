@@ -36,28 +36,23 @@ let getFilter filter colId =
   | FilterNone -> Text ""
   | FilterByString -> input ["type", "text"; "onkeyup", "filterMe(this)"; "id", colId + "Input"; "class", "filterInput"]
 
-let footerRow pagesPerBlock rowsPerPage totalRows = 
+let footerRow rowsPerPage = 
   let footerStyle = "grid-row: " + string (rowsPerPage+2) + "; grid-column: 1 / -1;"
-  let last = int (float totalRows / float pagesPerBlock)
-
   let pagination =
-    [1..last]
+    [1..10]
     |> List.map (fun i ->
       let pagingClass = 
-        if i <= pagesPerBlock+1 then
-          if i = 1 then
-            "pagingItem pagingItemActive"
-          else
-            "pagingItem"
+        if i = 1 then
+          "pagingItem pagingItemActive"
         else
-          "pagingItem pagingHide"
+          "pagingItem"
       a "#" ["id", "page" + (string i); "class", pagingClass; "onclick", "GoToPage('" + string(i - 1) + "')"] (text (string i)))
 
   let paginationHeader =
     [
       a "#" ["id", "pageFirst"; "class", "pagingControl pagingItemDisabled"; "onclick", "GoToPage('pageFirst')"] (text "|<")
       a "#" ["id", "pagePrevious"; "class", "pagingControl pagingItemDisabled"; "onclick", "GoToPage('pagePrevious')"] (text "<")
-      a "#" ["id", "pageBlockPrevious"; "class", "pagingControl pagingHide"; "onclick", "GoToPage('pageBlockPrevious')"] (text "...")
+      a "#" ["id", "pageBlockPrevious"; "class", "pagingControl"; "style", "display: none"; "onclick", "GoToPage('pageBlockPrevious')"] (text "...")
     ]
   let paginationFooter =
     [
@@ -103,4 +98,4 @@ let grid gridData rowsPerPage =
         else
           div ["class", "row"; "id", string rowNum; "style", rowStyle+showOnly] nodes)
       |> Seq.toList
-  gridComputed @ [footerRow 9 10 (Seq.length gridData)]
+  gridComputed @ ([footerRow 10])
