@@ -79,7 +79,7 @@ function GoToPage(page) {
         break;
       case 'pageLast': 
         currentPage = 0;
-        currentPageBlock = pagingData.length - 1;
+        currentPageBlock = Math.floor((pagingData.length - 1) / pageBlockSize);
         break;
     }
   }
@@ -92,10 +92,10 @@ function UpdatePagingFooter() {
   document.querySelectorAll(".pagingItem").forEach(t => t.classList.add("pagingHide"));
   //pagingData[currentPageBlock].forEach(t => document.getElementById("page" + t).classList.remove("pagingHide"));
   for (var i = 0; i < pageBlockSize; i++) {
-    if (pagingData[currentPageBlock][i]) {
+    if (pagingData[(currentPageBlock * pageBlockSize)+i]) {
       
       
-      document.getElementById("page" + (i+1)).innerHTML = pagingData[currentPageBlock][i];
+      document.getElementById("page" + (i+1)).innerHTML = parseInt(pagingData[currentPageBlock][i]) + 1;
       document.getElementById("page" + (i+1)).style.display = "inline-block";
     } else {
       document.getElementById("page" + (i+1)).style.display = "none";
@@ -105,21 +105,21 @@ function UpdatePagingFooter() {
   if (currentPageBlock == 0) {
     document.getElementById("pageFirst").classList.add("pagingItemDisabled");
     document.getElementById("pagePrevious").classList.add("pagingItemDisabled");
-    document.getElementById("pageBlockPrevious").classList.add("pagingHide");
+    document.getElementById("pageBlockPrevious").style.display = "inline-block";
   } else {
     document.getElementById("pageFirst").classList.remove("pagingItemDisabled");
     document.getElementById("pagePrevious").classList.remove("pagingItemDisabled");
-    document.getElementById("pageBlockPrevious").classList.remove("pagingHide");
+    document.getElementById("pageBlockPrevious").style.display = "none";
   }
 
-  if (pagingData[currentPageBlock].length < pageBlockSize) {
-    document.getElementById("pageBlockNext").style.display = "none";
-    document.getElementById("pageNext").classList.add("pagingItemDisabled");
-    document.getElementById("pageLast").classList.add("pagingItemDisabled");
-  } else {
+  if (pagingData[(currentPageBlock * pageBlockSize)+i]) {
     document.getElementById("pageBlockNext").style.display = "inline-block";
     document.getElementById("pageNext").classList.remove("pagingItemDisabled");
     document.getElementById("pageLast").classList.remove("pagingItemDisabled");
+  } else {
+    document.getElementById("pageBlockNext").style.display = "none";
+    document.getElementById("pageNext").classList.add("pagingItemDisabled");
+    document.getElementById("pageLast").classList.add("pagingItemDisabled");
   }
 }
 
@@ -127,7 +127,7 @@ function ShowRowsByRowCount() {
   var visibleRows = [...document.querySelectorAll(".row")].filter(t => t.style.display != "none");
   var visibleData = data.filter( t => t.filterShow);
   
-  var begin = (currentPageBlock * pageBlockSize) + currentPage;
+  var begin = ((currentPageBlock * pageBlockSize) + currentPage) * pageBlockSize;
   var end = begin + pageBlockSize;
   var rowsToShow = visibleData.slice(begin, end);
   visibleRows.forEach(t => t.style.display = "none");
