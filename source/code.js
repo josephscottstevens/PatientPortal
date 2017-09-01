@@ -5,6 +5,10 @@ var currentPage = 0;
 var currentPageBlock = 0;
 const pageBlockSize = 10;
 
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 function allowDrop(ev) {
   ev.preventDefault();
 }
@@ -47,7 +51,7 @@ function filterMe(e) {
 
 function GoToPage(page) {
   document.querySelectorAll(".pagingItemActive").forEach(t => t.classList.remove("pagingItemActive"));
-  if (parseInt(page)) {
+  if (isNumeric(page)) {
     currentPage = parseInt(page);
   } else {
     switch (page) {
@@ -105,11 +109,11 @@ function UpdatePagingFooter() {
   if (currentPageBlock == 0) {
     document.getElementById("pageFirst").classList.add("pagingItemDisabled");
     document.getElementById("pagePrevious").classList.add("pagingItemDisabled");
-    document.getElementById("pageBlockPrevious").style.display = "inline-block";
+    document.getElementById("pageBlockPrevious").style.display = "none";
   } else {
     document.getElementById("pageFirst").classList.remove("pagingItemDisabled");
     document.getElementById("pagePrevious").classList.remove("pagingItemDisabled");
-    document.getElementById("pageBlockPrevious").style.display = "none";
+    document.getElementById("pageBlockPrevious").style.display = "inline-block";
   }
 
   if (pagingData[(currentPageBlock * pageBlockSize)+i]) {

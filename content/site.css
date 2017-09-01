@@ -142,7 +142,6 @@ nav a {
     display: grid; 
     grid-template-columns: 1fr;
     grid-template-rows:  repeat(-1, auto);
-    /* grid-gap: 5px; */
 }
 /* Below is for Grid */
 .headerRow,
@@ -150,15 +149,35 @@ nav a {
     display: grid;
     grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: repeat(-1, auto);
-    /* grid-gap: 5px; */
     grid-column: 1;
+
 }
+
+.HomeZip.HomeZipCol {
+    border-right-width: 1px;
+    border-right-color: #c8c8c8;
+    border-right-style: solid;
+}
+
+.headerRow {
+    border-color: #c8c8c8;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+}
+
+.Row:nth-child(11) {
+    border-bottom-width: 1px;
+    border-bottom-color: #c8c8c8;
+    border-bottom-style: solid;
+}
+
 .Col {
     border-color: #c8c8c8;
     border-width: 1px 0 0 1px;
     border-style: solid;
     padding: .7em;
 }
+
 .detailRow {
     grid-row: 2;
     grid-column: 1 / -1;
