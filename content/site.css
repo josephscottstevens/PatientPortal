@@ -137,7 +137,9 @@ nav a {
     position: relative;
     margin: auto;
 }
-
+input[type=text] {
+    border-style: none;
+}
 .wrapper { 
     display: grid; 
     grid-template-columns: 1fr;
@@ -147,7 +149,7 @@ nav a {
 .headerRow,
 .row {
     display: grid;
-    grid-template-columns: 40px 1.5fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 40px 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: repeat(-1, auto);
     grid-column: 1;
 
@@ -163,6 +165,7 @@ nav a {
     border-color: #c8c8c8;
     border-width: 1px 1px 0 1px;
     border-style: solid;
+    text-align: center;
 }
 
 .Row:nth-child(11) {
@@ -189,6 +192,9 @@ nav a {
 }
 .Header {
     cursor: pointer;
+    border-color: #c8c8c8;
+    border-width: 0 0 0 1px;
+    border-style: solid;
 }
 .row {
     /* margin-top: 4px; */
