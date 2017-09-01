@@ -89,6 +89,7 @@ let basePage url content =
   html [] [
     head [] [
       title [] "Home"
+      link [ "rel", "stylesheet"; "href", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ]
       link [ "rel", "stylesheet"; "href", "https://fonts.googleapis.com/css?family=Overpass" ]
       link [ "rel", "stylesheet"; "href", "content/site.css"; "type", "text/css" ]
       script ["type", "text/javascript"; "src", "source/code.js"] []

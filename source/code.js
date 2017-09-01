@@ -96,7 +96,7 @@ function UpdatePagingFooter() {
       
       
       document.getElementById("page" + (i+1)).innerHTML = pagingData[currentPageBlock][i];
-      document.getElementById("page" + (i+1)).style.display = "";
+      document.getElementById("page" + (i+1)).style.display = "inline-block";
     } else {
       document.getElementById("page" + (i+1)).style.display = "none";
     }
@@ -112,14 +112,14 @@ function UpdatePagingFooter() {
     document.getElementById("pageBlockPrevious").classList.remove("pagingHide");
   }
 
-  if (currentPageBlock == pagingData.length - 1) {
-    document.getElementById("pageBlockNext").classList.add("pagingHide");
+  if (pagingData[currentPageBlock].length < pageBlockSize) {
+    document.getElementById("pageBlockNext").style.display = "none";
     document.getElementById("pageNext").classList.add("pagingItemDisabled");
-    document.getElementById("pageBlockPrevious").classList.add("pagingItemDisabled");
+    document.getElementById("pageLast").classList.add("pagingItemDisabled");
   } else {
-    document.getElementById("pageBlockNext").classList.remove("pagingHide");
+    document.getElementById("pageBlockNext").style.display = "inline-block";
     document.getElementById("pageNext").classList.remove("pagingItemDisabled");
-    document.getElementById("pageBlockPrevious").classList.remove("pagingItemDisabled");
+    document.getElementById("pageLast").classList.remove("pagingItemDisabled");
   }
 }
 

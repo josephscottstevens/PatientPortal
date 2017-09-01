@@ -144,17 +144,20 @@ nav a {
     grid-template-rows:  repeat(-1, auto);
     /* grid-gap: 5px; */
 }
-.wrapper > div {
-    border-color: red;
-}
 /* Below is for Grid */
 .headerRow,
-.row { 
-    display: grid; 
+.row {
+    display: grid;
     grid-template-columns: 40px 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: repeat(-1, auto);
     /* grid-gap: 5px; */
     grid-column: 1;
+}
+.Col {
+    border-color: #c8c8c8;
+    border-width: 1px 0 0 1px;
+    border-style: solid;
+    padding: .7em;
 }
 .detailRow {
     grid-row: 2;
@@ -169,14 +172,26 @@ nav a {
     cursor: pointer;
 }
 .row {
-    margin-top: 4px;
-    margin-bottom: 4px;
+    /* margin-top: 4px; */
+    /* margin-bottom: 4px; */
 }
-
+a:visited {
+    color: #333;
+}
 .pagingControl,
 .pagingItem {
-    background-color: lightgray;
-    margin: 5px;
+    background: #ececec;
+    border-right-color: #c8c8c8;
+    border-right-style: solid;
+    min-width: 27px;
+    display: inline-block;
+    text-align: center;
+    border-right-width: 1px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 10px 1px 7px 2px;
+    user-select: none;
+    font-size: 13px;
 }
 
 .pagingItemDisabled {
@@ -185,6 +200,14 @@ nav a {
 }
 
 .pagingItemActive {
-    color: red;
-    background-color:blue;
+    background: #f9920b;
+}
+
+.footerRow {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px 4px 4px 4px;
+    margin: 0 6px 0 6px;
+    background-color: #ececec;
+    border-color: #c8c8c8;
 }

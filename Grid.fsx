@@ -10,6 +10,8 @@ type Id = string
 type ColumnNumber = int
 type Column = Id * ColumnNumber * ColumnInfo
 
+let i = tag "i"
+
 let getId colInfo = 
   let (colName:string), _, _, _, _ = colInfo
   let idNoSpaces:Id = colName.Replace(" ", "")
@@ -50,15 +52,15 @@ let footerRow rowsPerPage =
 
   let paginationHeader =
     [
-      a "#" ["id", "pageFirst"; "class", "pagingControl pagingItemDisabled"; "onclick", "GoToPage('pageFirst')"] (text "|<")
-      a "#" ["id", "pagePrevious"; "class", "pagingControl pagingItemDisabled"; "onclick", "GoToPage('pagePrevious')"] (text "<")
-      a "#" ["id", "pageBlockPrevious"; "class", "pagingControl"; "style", "display: none"; "onclick", "GoToPage('pageBlockPrevious')"] (text "...")
+      i ["id", "pageFirst"; "class", "pagingControl pagingItemDisabled fa fa-fast-backward"; "onclick", "GoToPage('pageFirst')"][]
+      i ["id", "pagePrevious"; "class", "pagingControl pagingItemDisabled fa fa-backward"; "onclick", "GoToPage('pagePrevious')"][]
+      i ["id", "pageBlockPrevious"; "class", "pagingControl fa fa-ellipsis-h"; "style", "display: none"; "onclick", "GoToPage('pageBlockPrevious')"][]
     ]
   let paginationFooter =
     [
-      a "#" ["id", "pageBlockNext"; "class", "pagingControl"; "onclick", "GoToPage('pageBlockNext')"] (text "...")
-      a "#" ["id", "pageNext"; "class", "pagingControl"; "onclick", "GoToPage('pageNext')"] (text ">")
-      a "#" ["id", "pageLast"; "class", "pagingControl"; "onclick", "GoToPage('pageLast')"] (text ">|")
+      i ["id", "pageBlockNext"; "class", "pagingControl fa fa-ellipsis-h"; "onclick", "GoToPage('pageBlockNext')"][]
+      i ["id", "pageNext"; "class", "pagingControl fa fa-forward"; "onclick", "GoToPage('pageNext')"][]
+      i ["id", "pageLast"; "class", "pagingControl fa fa-fast-forward"; "onclick", "GoToPage('pageLast')"][]
     ]
   div ["id", "footer"; "class", "footerRow"; "style", footerStyle]
     (paginationHeader @ pagination @ paginationFooter)
@@ -84,7 +86,7 @@ let grid gridData rowsPerPage =
                 if name = "Detail Row" then
                   div ["class", "detailRow"; "style", "display: none"] [dataValue]
                 else
-                  let classValue = id + " " + id + "Col"
+                  let classValue = id + " " + id + "Col Col"
                   div ["class", classValue; "name", id; "style", style] [dataValue])
           |> Seq.toList        
         let rowStyle = "grid-row: " + string(rowNum + 1)
