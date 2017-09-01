@@ -13,6 +13,12 @@ at the end
 
 ----------------------------------
 
+pagination is only going up by 1 (aka clicking on 8 goes to row 8 instead of 80)
+
+add text for current page \ total pages
+more visual bugs
+paging last not right
+doesn't display 1000+ well (on paging at bottom)
 change from text string header to a nodeHeader
 fix css being hard coded to work with rows... really ought to be apart of grid builder
 stop using name attribute
@@ -21,6 +27,12 @@ test different column types
 test number columns
 see if I can remove any more "unexpected javascript behavior"
 First row of data set is being killed
+
+----------------------------------------------------
+
+low priority 
+
+Instead of rendering all 5000 nodes, see if I can only render the amount shown
 
 ----------------------------------------------------
 ways things are found (besides id)

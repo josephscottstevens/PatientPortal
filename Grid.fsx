@@ -38,6 +38,24 @@ let getFilter filter colId =
   | FilterNone -> Text ""
   | FilterByString -> input ["type", "text"; "onkeyup", "filterMe(this)"; "id", colId + "Input"; "class", "filterInput"]
 
+let cellStyle colNumber = "grid-row: 1; grid-column: " + string(colNumber + 1)
+let rowStyle rowNumber = "grid-row: " + string(rowNumber + 1)
+
+let headerRow headerData =
+  let headerColumns =
+    headerData
+    |> Seq.indexed
+    |> Seq.map  (fun (colNum, t)-> 
+      let id, num, (name, sortMode, filterMode, dragMode, dataValue) = t
+      let classValue = id + " " + id + "Header" + " Header"
+      let sortImage = img ["class", "sortBtn"; "src", "content\\noArrow.png";]
+      if name = "Detail Row" then
+        Text ""
+      else
+        div (["class", classValue; "style", cellStyle colNum; "id", id; getSortAttr sortMode; ] @ getDrag dragMode ) [Text name; sortImage; getFilter filterMode id])
+    |> Seq.toList
+  div ["class", "headerRow"; "style", rowStyle 0] headerColumns
+  
 let footerRow rowsPerPage = 
   let footerStyle = "grid-row: " + string (rowsPerPage+2) + "; grid-column: 1 / -1;"
   let pagination =
@@ -64,6 +82,7 @@ let footerRow rowsPerPage =
     ]
   div ["id", "footer"; "class", "footerRow"; "style", footerStyle]
     (paginationHeader @ pagination @ paginationFooter)
+
 let grid gridData rowsPerPage =
   let gridComputed = 
     gridData
@@ -74,30 +93,19 @@ let grid gridData rowsPerPage =
           |> Seq.indexed
           |> Seq.map (fun (colNum, t) -> 
               let id, num, (name, sortMode, filterMode, dragMode, dataValue) = t
-              let style = "grid-row: 1; grid-column: " + string(colNum + 1)
-              if rowNum = 0 then
-                let classValue = id + " " + id + "Header" + " Header"
-                let sortImage = img ["class", "sortBtn"; "src", "content\\noArrow.png";]
-                if name = "Detail Row" then
-                  Text ""
-                else
-                  div (["class", classValue; "style", style; "id", id; getSortAttr sortMode; ] @ getDrag dragMode ) [Text name; sortImage; getFilter filterMode id]
+              
+              if name = "Detail Row" then
+                div ["class", "detailRow"; "style", "display: none"] [dataValue]
               else
-                if name = "Detail Row" then
-                  div ["class", "detailRow"; "style", "display: none"] [dataValue]
-                else
-                  let classValue = id + " " + id + "Col Col"
-                  div ["class", classValue; "name", id; "style", style] [dataValue])
+                let classValue = id + " " + id + "Col Col"
+                div ["class", classValue; "name", id; "style", cellStyle colNum] [dataValue])
           |> Seq.toList        
-        let rowStyle = "grid-row: " + string(rowNum + 1)
-        let showOnly =
-          if rowNum <= rowsPerPage then
+        
+        let rowStyleShow =
+          if rowNum < rowsPerPage then
             ""
           else
-            ";display: none;"
-        if rowNum = 0 then
-          div ["class", "headerRow"; "style", rowStyle;] nodes
-        else
-          div ["class", "row"; "id", string rowNum; "style", rowStyle+showOnly] nodes)
+            (rowStyle rowNum) + ";display: none;"
+        div ["class", "row"; "id", string rowNum; "style", rowStyleShow] nodes)
       |> Seq.toList
-  gridComputed @ ([footerRow 10])
+  [headerRow (Seq.head gridData)] @ gridComputed @ ([footerRow 10])

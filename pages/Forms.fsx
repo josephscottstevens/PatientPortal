@@ -16,11 +16,12 @@ let gridData =
   DataAccess.getUsers
   |> Seq.where (fun t -> t.HomePhone.IsSome)
   |> Seq.where (fun t -> t.HomeCity.IsSome)
-  |> Seq.map (fun t -> 
+  |> Seq.indexed
+  |> Seq.map (fun (idx, t) -> 
       [
         "Pre",        SortNone    , FilterNone    , DragNone,  toggleNode
         "Name",       SortByString, FilterByString, Draggable, str t.NameComputed
-        "Gender",     SortByString, FilterByString, Draggable, str t.Gender
+        "Gender",     SortByString, FilterByString, Draggable, str (Some (string idx))
         "Home Phone", SortByString, FilterByString, Draggable, str t.HomePhone
         "Home City",  SortByString, FilterByString, Draggable, str t.HomeCity
         "Home State", SortByString, FilterByString, Draggable, str t.HomeState
